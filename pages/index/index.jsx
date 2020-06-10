@@ -9,7 +9,7 @@ import { LoginForm } from "components/forms/Login";
  */
 const HomePage = () => (
   <NonAuthLayout>
-    <Grid container direction="column" alignItems="center" spacing={2}>
+    <Grid container direction="column" alignItems="center" spacing={4}>
       <Grid item>
         <LoginForm />
       </Grid>
