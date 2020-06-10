@@ -1,28 +1,26 @@
 import React from "react";
 import NextLink from "next/link";
-import { Grid, Button, Link } from "@material-ui/core";
+import { Grid, Link, Typography } from "@material-ui/core";
 
 import { routes } from "config";
 import { NonAuthLayout } from "components/Layout";
-import { SignInForm } from "components/forms/SignIn";
+import { SignUpForm } from "components/forms/SignUp";
 
 /**
- * Home (login) page.
+ * Sign up page.
  */
 const HomePage = () => (
   <NonAuthLayout>
     <Grid container direction="column" alignItems="center" spacing={4}>
       <Grid item>
-        <NextLink href={routes.MAIN.href} passHref>
-          <Button variant="outlined">Sign in with Google</Button>
-        </NextLink>
+        <Typography variant="h4">Registration</Typography>
       </Grid>
       <Grid item>
-        <SignInForm />
+        <SignUpForm />
       </Grid>
       <Grid item>
-        <NextLink href={routes.SIGN_UP.href} passHref>
-          <Link color="primary">Sign up</Link>
+        <NextLink href={routes.SIGN_IN.href} passHref>
+          <Link color="primary">Back to sign in page</Link>
         </NextLink>
       </Grid>
     </Grid>
