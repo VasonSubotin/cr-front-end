@@ -1,6 +1,6 @@
 import React from "react";
-import Link from "next/link";
-import { Grid, Button } from "@material-ui/core";
+import NextLink from "next/link";
+import { Grid, Button, Link } from "@material-ui/core";
 
 import { routes } from "config";
 import { NonAuthLayout } from "components/Layout";
@@ -13,12 +13,17 @@ const HomePage = () => (
   <NonAuthLayout>
     <Grid container direction="column" alignItems="center" spacing={4}>
       <Grid item>
+        <NextLink href={routes.MAIN.href} passHref>
+          <Button variant="outlined">Sign in with Google</Button>
+        </NextLink>
+      </Grid>
+      <Grid item>
         <LoginForm />
       </Grid>
       <Grid item>
-        <Link href={routes.MAIN.href} passHref>
-          <Button variant="outlined">Sign in with Google</Button>
-        </Link>
+        <NextLink href={routes.SIGN_UP.href} passHref>
+          <Link color="primary">Sign up</Link>
+        </NextLink>
       </Grid>
     </Grid>
   </NonAuthLayout>
