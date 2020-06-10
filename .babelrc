@@ -56,7 +56,10 @@
           "api": "./src/api",
           "components": "./src/components",
           "config": "./src/config",
-          "styles": "./src/styles"
+          "reducers": "./src/reducers",
+          "sagas": "./src/sagas",
+          "styles": "./src/styles",
+          "store": "./src/store"
         }
       }
     ]

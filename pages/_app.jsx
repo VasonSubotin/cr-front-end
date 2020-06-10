@@ -1,37 +1,62 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
+import App from "next/app";
+import { END } from "redux-saga";
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 
+import { storeWrapper } from "store";
 import { appTheme } from "styles";
 
 /**
- * Custom '_app' component to use MUI for styling.
+ * Custom "_app" component.
+ * Connects MUI and redux-saga to the application.
  */
-export default function MyApp({ Component, pageProps }) {
-  useEffect(() => {
+class WrappedApp extends App {
+  componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
-  }, []);
+  }
 
-  return (
-    <>
-      <Head>
-        <title>EV Charge</title>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-      </Head>
-      <ThemeProvider theme={appTheme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </>
-  );
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <>
+        <Head>
+          <title>EV Charge</title>
+          <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        </Head>
+        <ThemeProvider theme={appTheme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </>
+    );
+  }
 }
 
-MyApp.propTypes = {
+WrappedApp.getInitialProps = async ({ Component, ctx }) => {
+  // Wait for all page actions to dispatch.
+  const pageProps = {
+    ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
+  };
+
+  // Stop the saga if on server.
+  if (ctx.req) {
+    ctx.store.dispatch(END);
+    await ctx.store.sagaTask.toPromise();
+  }
+
+  return { pageProps };
+};
+
+WrappedApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
 };
+
+export default storeWrapper.withRedux(WrappedApp);
