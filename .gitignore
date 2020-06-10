@@ -1,0 +1,56 @@
+# Dependencies
+node_modules
+bower_components
+
+# Coverage reports
+coverage
+
+# Build output
+build
+dist
+
+# Temporary files
+.next
+*.bak
+tmp
+
+# Local files
+*.local
+
+# Pacage managers
+.yarn
+yarn.lock
+.pnp.js
+
+# React application
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+
+# Editor directories and files
+.idea
+.vscode
+.vs
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.bak
+tmp
+

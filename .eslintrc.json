@@ -1,0 +1,55 @@
+{
+  "extends": [
+    "react-app",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "plugins": ["react", "react-hooks"],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx"],
+        "moduleDirectory": ["node_modules", "./", "./src"]
+      }
+    },
+    "jsdoc": {
+      "min-lines": 3
+    }
+  },
+  "rules": {
+    // Basic
+    "curly": ["error", "all"],
+    // React
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
+    // React-hooks
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    // Import
+    "import/no-useless-path-segments": [
+      "error",
+      {
+        // TODO: not working with absolute import path
+        // https://github.com/benmosher/eslint-plugin-import/issues/1280
+        "noUselessIndex": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "unknown"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "ignore"
+        }
+      }
+    ]
+  }
+}

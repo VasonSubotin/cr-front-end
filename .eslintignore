@@ -1,0 +1,15 @@
+# Dependencies
+node_modules
+
+# Testing
+coverage
+
+# Logs
+Logs
+
+# Temporary
+.next
+
+# Production
+build
+dist
