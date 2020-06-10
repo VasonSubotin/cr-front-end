@@ -65,6 +65,7 @@ export const appTheme = createMuiTheme({
     // Buttons.
     MuiButton: {
       root: {
+        textTransform: "none",
         textAlign: "center",
       },
     },
