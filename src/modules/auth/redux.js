@@ -32,7 +32,7 @@ export const authSelectors = {
 /* ------------- Reducers ------------- */
 
 const signInRequest = (state) => ({ ...state, signInError: null });
-const signInSuccess = (state) => ({ ...state, signInError: null });
+const signInSuccess = (state) => ({ ...state, isSignedIn: true, signInError: null });
 const signInFailure = (state, { error }) => ({ ...state, signInError: error });
 
 /* ------------- Hookup Reducers To Types ------------- */

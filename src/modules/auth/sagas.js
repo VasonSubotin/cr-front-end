@@ -11,10 +11,12 @@ import { authTypes, authActions } from "./redux";
 function* signIn({ email }) {
   yield put(accountActions.setUserInfo(email));
   yield put(authActions.signInSuccess());
+
+  Router.push(routes.MAIN.href);
 }
 
 function signOut() {
-  Router.push(routes.SIGN_IN.path);
+  Router.push(routes.SIGN_IN.href);
 }
 
 export function* authSaga() {
