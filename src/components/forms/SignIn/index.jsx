@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Grid, Button, TextField } from "@material-ui/core";
 
 import { authActions } from "modules/auth";
+import { validateEmail, validatePassword } from "utils/validators";
 
 const SignInFormComponent = ({ signInRequest }) => {
   const [processing, setProcessing] = useState(false);
@@ -26,7 +27,16 @@ const SignInFormComponent = ({ signInRequest }) => {
     const email = emailRef.current.value.trim();
     const password = passwordRef.current.value.trim();
 
-    await signInRequest(email, password);
+    const formErrors = {
+      email: validateEmail(email),
+      password: validatePassword(password),
+    };
+
+    setErrors(formErrors);
+
+    if (!formErrors.email && !formErrors.password) {
+      await signInRequest(email, password);
+    }
 
     setProcessing(false);
   };

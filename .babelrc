@@ -60,7 +60,8 @@
           "reducers": "./src/reducers",
           "sagas": "./src/sagas",
           "styles": "./src/styles",
-          "store": "./src/store"
+          "store": "./src/store",
+          "utils": "./src/utils"
         }
       }
     ]
