@@ -11,7 +11,7 @@ import { routes } from "config";
 export const Header = () => {
   const renderLinks = () =>
     [routes.MAIN, routes.DEMO, routes.SESSION, routes.SETTINGS].map((route) => (
-      <Grid item>
+      <Grid item key={route.text}>
         <NextLink href={route.href} passHref>
           <Button variant="text">{route.text}</Button>
         </NextLink>
