@@ -9,7 +9,7 @@ import { authTypes, authActions } from "./redux";
 // const TAG = "[AuthSagas]";
 
 function* signIn({ email }) {
-  yield put(accountActions.setUserInfo, { email });
+  yield put(accountActions.setUserInfo(email));
   yield put(authActions.signInSuccess());
 }
 
