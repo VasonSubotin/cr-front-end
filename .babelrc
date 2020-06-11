@@ -56,6 +56,7 @@
           "api": "./src/api",
           "components": "./src/components",
           "config": "./src/config",
+          "modules": "./src/modules",
           "reducers": "./src/reducers",
           "sagas": "./src/sagas",
           "styles": "./src/styles",

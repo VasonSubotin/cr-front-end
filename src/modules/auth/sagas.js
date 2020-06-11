@@ -1,0 +1,23 @@
+import Router from "next/router";
+import { put, all, takeLatest } from "redux-saga/effects";
+
+import { routes } from "config";
+
+import { authTypes, authActions } from "./redux";
+
+// const TAG = "[AuthSagas]";
+
+function* signIn({ email }) {
+  yield put(authActions.signInSuccess());
+}
+
+function signOut() {
+  Router.push(routes.SIGN_IN.path);
+}
+
+export function* authSaga() {
+  yield all([
+    takeLatest(authTypes.SIGN_IN_REQUEST, signIn),
+    takeLatest(authTypes.SIGN_OUT_REQUEST, signOut),
+  ]);
+}
