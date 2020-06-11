@@ -1,41 +1,42 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Grid, Button, TextField } from "@material-ui/core";
 
 import { authActions } from "modules/auth";
 import { validateEmail, validatePassword } from "utils/validators";
+import { useForm } from "components/hooks/useForm";
+
+const FormFields = {
+  EMAIL: "email",
+  PASSWORD: "password",
+};
 
 const SignInFormComponent = ({ signInRequest }) => {
   const [processing, setProcessing] = useState(false);
-  const [errors, setErrors] = useState({
-    email: null,
-    password: null,
+
+  const { formFields, validateForm, handleFieldChange } = useForm({
+    [FormFields.EMAIL]: {
+      validator: validateEmail,
+      label: "Email",
+    },
+    [FormFields.PASSWORD]: {
+      validator: validatePassword,
+      label: "Password",
+    },
   });
 
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-
-  const onFieldChange = (name) => {
-    setErrors({ ...errors, [name]: null });
-  };
-
-  const submit = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
 
-    const email = emailRef.current.value.trim();
-    const password = passwordRef.current.value.trim();
+    const isValidationFailed = validateForm();
 
-    const formErrors = {
-      email: validateEmail(email),
-      password: validatePassword(password),
-    };
-
-    setErrors(formErrors);
-
-    if (!formErrors.email && !formErrors.password) {
-      await signInRequest(email, password);
+    if (!isValidationFailed) {
+      await signInRequest(
+        formFields[FormFields.EMAIL].value,
+        formFields[FormFields.PASSWORD].value,
+      );
     }
 
     setProcessing(false);
@@ -43,7 +44,7 @@ const SignInFormComponent = ({ signInRequest }) => {
 
   return (
     <Grid
-      onSubmit={submit}
+      onSubmit={onSubmit}
       component="form"
       container
       direction="column"
@@ -52,33 +53,28 @@ const SignInFormComponent = ({ signInRequest }) => {
     >
       <Grid item>
         <TextField
-          onChange={() => onFieldChange("email")}
           disabled={processing}
+          onChange={handleFieldChange}
           variant="outlined"
-          label="Email"
-          error={!!errors.email}
-          helperText={errors.email}
-          inputProps={{
-            ref: emailRef,
-          }}
+          {...formFields[FormFields.EMAIL]}
         />
       </Grid>
       <Grid item>
         <TextField
-          onChange={() => onFieldChange("password")}
           disabled={processing}
+          onChange={handleFieldChange}
           variant="outlined"
-          label="Password"
-          type="password"
-          error={!!errors.password}
-          helperText={errors.password}
-          inputProps={{
-            ref: passwordRef,
-          }}
+          {...formFields[FormFields.PASSWORD]}
         />
       </Grid>
       <Grid item>
-        <Button type="submit" disabled={processing} variant="outlined" color="primary">
+        <Button
+          disabled={processing}
+          onChange={handleFieldChange}
+          type="submit"
+          variant="outlined"
+          color="primary"
+        >
           Sign in
         </Button>
       </Grid>
