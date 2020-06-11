@@ -5,7 +5,7 @@ export const useForm = (fieldsData) => {
     const fieldsObj = {};
 
     Object.keys(fieldsData).forEach((name) => {
-      const { defaultValue, validator, ...rest } = fieldsData[name];
+      const { defaultValue, validator, validatorArgFields, ...rest } = fieldsData[name];
       fieldsObj[name] = {
         value: defaultValue || "",
         error: false,
@@ -24,11 +24,18 @@ export const useForm = (fieldsData) => {
     let isErrorFound = false;
     const newFieldsObj = {};
 
-    Object.keys(fieldsData).forEach((key) => {
-      const error = fieldsData[key].validator(formFields[key].value);
+    Object.keys(fieldsData).forEach((name) => {
+      let validatorArgs = [];
+      if (fieldsData[name].validatorArgFields) {
+        validatorArgs = fieldsData[name].validatorArgFields.map((arg) => formFields[arg].value);
+      } else {
+        validatorArgs = [formFields[name].value];
+      }
 
-      newFieldsObj[key] = {
-        ...formFields[key],
+      const error = fieldsData[name].validator(...validatorArgs);
+
+      newFieldsObj[name] = {
+        ...formFields[name],
         error: !!error,
         helperText: error,
       };
