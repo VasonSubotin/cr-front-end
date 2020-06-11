@@ -2,12 +2,14 @@ import Router from "next/router";
 import { put, all, takeLatest } from "redux-saga/effects";
 
 import { routes } from "config";
+import { accountActions } from "modules/account";
 
 import { authTypes, authActions } from "./redux";
 
 // const TAG = "[AuthSagas]";
 
 function* signIn({ email }) {
+  yield put(accountActions.setUserInfo, { email });
   yield put(authActions.signInSuccess());
 }
 

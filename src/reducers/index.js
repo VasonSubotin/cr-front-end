@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import { resettableReducer } from "reduxsauce";
 
+import { accountReducer } from "modules/account";
 import { authReducer, authTypes } from "modules/auth";
 
 const resettable = resettableReducer(authTypes.SIGN_OUT_REQUEST);
 
 export const rootReducer = combineReducers({
+  account: resettable(accountReducer),
   auth: resettable(authReducer),
 });
