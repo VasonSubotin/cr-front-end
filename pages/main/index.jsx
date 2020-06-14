@@ -1,5 +1,6 @@
 import React from "react";
 
+import { withAuth } from "components/hoc/withAuth";
 import { AuthLayout } from "components/Layout";
 import { CarsList } from "components/CarsList";
 
@@ -12,4 +13,4 @@ const MainPage = () => (
   </AuthLayout>
 );
 
-export default MainPage;
+export default withAuth(MainPage);
