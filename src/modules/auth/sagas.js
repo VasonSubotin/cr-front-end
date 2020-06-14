@@ -11,16 +11,14 @@ const TAG = "[AuthSagas]";
 function* signIn(serverAPI, { email, password }) {
   let { response } = yield call(serverAPI.authenticate, { userName: email, password });
 
-  const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImV4cCI6MTU5MjA2NTI0MSwiaWF0IjoxNTkyMDM2NDQxfQ.tZG9Kk9e5kqMalEkB-R7bsrV6nIZ-wDXYAVAH4bIk7BpTk_arNkuLhLbclWSwKMpTtfQn03KZ-9WsE1AV92G5A";
-
-  console.log(response);
   if (response.status !== 200) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
     yield put(authActions.signInFailure(message));
     console.error(message);
-    // return { error: message };
+    return { error: message };
   }
+
+  const { token } = response.data;
 
   yield call(serverAPI.setAccessToken, token);
 
@@ -28,9 +26,11 @@ function* signIn(serverAPI, { email, password }) {
   yield put(authActions.signInSuccess());
 
   ({ response } = yield call(serverAPI.getUserProfile));
+  console.log("profile");
   console.log(response);
 
   ({ response } = yield call(serverAPI.getUserResources));
+  console.log("resources");
   console.log(response);
 
   Router.push(routes.MAIN.href);
@@ -39,7 +39,6 @@ function* signIn(serverAPI, { email, password }) {
 function* signUp(serverAPI, { email, password }) {
   const { response } = yield call(serverAPI.signUp, { userName: email, password });
 
-  console.log(response);
   if (response.status !== 200) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
     yield put(authActions.signUpFailure(message));

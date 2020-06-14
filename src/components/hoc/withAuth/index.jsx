@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Router from "next/router";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
@@ -137,7 +136,7 @@ withAuthHoc.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isSignedIn: authSelectors.getSignedIn(state),
+  isSignedIn: authSelectors.getIsSignedIn(state),
   isFocused: uiSelectors.getIsFocused(state),
 });
 
