@@ -20,15 +20,18 @@ export const SignUpFormComponent = ({ signUpRequest }) => {
     [FormFields.EMAIL]: {
       validator: validateEmail,
       label: "Email",
+      defaultValue: "test@te.st",
     },
     [FormFields.PASSWORD]: {
       validator: validatePassword,
       label: "Password",
+      defaultValue: "Test2Test",
     },
     [FormFields.PASSWORD_CONFIRMATION]: {
       validator: validatePasswordMismatch,
       validatorArgFields: [FormFields.PASSWORD, FormFields.PASSWORD_CONFIRMATION],
-      label: "Password",
+      label: "Confirm password",
+      defaultValue: "Test2Test",
     },
   });
 
@@ -89,7 +92,7 @@ export const SignUpFormComponent = ({ signUpRequest }) => {
           variant="outlined"
           color="primary"
         >
-          Sign in
+          Sign up
         </Button>
       </Grid>
     </Grid>

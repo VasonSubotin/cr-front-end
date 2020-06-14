@@ -32,4 +32,14 @@ export class APIBase {
   post = (url, data = {}, headers = {}) => this.request("post", url, data, headers);
   put = (url, data = {}, headers = {}) => this.request("put", url, data, headers);
   delete = (url, data = {}, headers = {}) => this.request("delete", url, data, headers);
+
+  /**
+   * API settings functions.
+   */
+  setAccessToken = (accessToken, tokenType = "Bearer") => {
+    this.api.setHeader("Authorization", `${tokenType} ${accessToken}`);
+  };
+  clearAccessToken = () => {
+    this.api.deleteHeader("Authorization");
+  };
 }
