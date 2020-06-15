@@ -3,6 +3,7 @@ import { put, all, call, takeLatest } from "redux-saga/effects";
 
 import { routes } from "config";
 import { accountActions } from "modules/account";
+import { resourcesActions } from "modules/resources";
 
 import { authTypes, authActions } from "./redux";
 
@@ -26,12 +27,14 @@ function* signIn(serverAPI, { email, password }) {
   yield put(authActions.signInSuccess());
 
   ({ response } = yield call(serverAPI.getUserProfile));
-  console.log("profile");
-  console.log(response);
+
+  console.log("Profile", response.data);
 
   ({ response } = yield call(serverAPI.getUserResources));
-  console.log("resources");
-  console.log(response);
+
+  if (response.data) {
+    yield put(resourcesActions.setResources(response.data));
+  }
 
   Router.push(routes.MAIN.href);
 }

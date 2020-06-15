@@ -17,14 +17,12 @@ const SignInFormComponent = ({ signInRequest }) => {
 
   const { formFields, validateForm, handleFieldChange } = useForm({
     [FormFields.EMAIL]: {
-      // validator: validateEmail,
-      validator: () => null,
+      validator: validateEmail,
       label: "Email",
       defaultValue: "test@te.st",
     },
     [FormFields.PASSWORD]: {
-      // validator: validatePassword,
-      validator: () => null,
+      validator: validatePassword,
       label: "Password",
       defaultValue: "Test2Test",
     },
