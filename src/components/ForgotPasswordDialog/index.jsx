@@ -1,6 +1,7 @@
 import React from "react";
 import { Dialog, DialogTitle, DialogContent, Grid, Typography } from "@material-ui/core";
-import { RecoverPasswordForm } from "components/forms/RecoverPassword";
+
+import { ResetPasswordForm } from "components/forms/ResetPassword";
 
 export const ForgotPasswordDialog = ({ open, onClose }) => (
   <Dialog open={open} onClose={onClose}>
@@ -15,7 +16,7 @@ export const ForgotPasswordDialog = ({ open, onClose }) => (
           </Typography>
         </Grid>
         <Grid item>
-          <RecoverPasswordForm />
+          <ResetPasswordForm />
         </Grid>
       </Grid>
     </DialogContent>
