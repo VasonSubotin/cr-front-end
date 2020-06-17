@@ -45,24 +45,19 @@ const SignInFormComponent = ({ signInRequest }) => {
   };
 
   return (
-    <Grid
-      onSubmit={onSubmit}
-      component="form"
-      container
-      direction="column"
-      alignItems="center"
-      spacing={2}
-    >
-      <Grid item>
+    <Grid onSubmit={onSubmit} component="form" container justify="center" spacing={2}>
+      <Grid item xs={12}>
         <TextField
+          fullWidth
           disabled={processing}
           onChange={handleFieldChange}
           variant="outlined"
           {...formFields[FormFields.EMAIL]}
         />
       </Grid>
-      <Grid item>
+      <Grid item xs={12}>
         <TextField
+          fullWidth
           disabled={processing}
           onChange={handleFieldChange}
           variant="outlined"

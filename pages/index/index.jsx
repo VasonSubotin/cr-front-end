@@ -15,13 +15,15 @@ const HomePage = () => {
 
   return (
     <NonAuthLayout>
-      <Grid container direction="column" wrap="nowrap" alignItems="center" spacing={4}>
+      <Grid container justify="center" spacing={4}>
         <Grid item>
           <NextLink href={routes.MAIN.href} passHref>
-            <Button variant="outlined">Sign in with Google</Button>
+            <Button variant="outlined" color="primary">
+              Sign in with Google
+            </Button>
           </NextLink>
         </Grid>
-        <Grid item>
+        <Grid item xs={12}>
           <SignInForm />
         </Grid>
         <Grid item xs={12}>
