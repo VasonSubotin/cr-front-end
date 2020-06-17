@@ -2,6 +2,7 @@ import Router from "next/router";
 import { put, all, call, takeLatest } from "redux-saga/effects";
 
 import { routes } from "config";
+import { getRandomInt } from "utils/getRandomInt";
 import { accountActions } from "modules/account";
 import { resourcesActions } from "modules/resources";
 
@@ -27,16 +28,27 @@ function* signIn(serverAPI, { email, password }) {
   yield put(authActions.signInSuccess());
 
   ({ response } = yield call(serverAPI.getUserProfile));
-
   console.log("Profile", response.data);
 
   ({ response } = yield call(serverAPI.getUserResources));
 
   if (response.data) {
-    yield put(resourcesActions.setResources(response.data));
+    yield put(
+      resourcesActions.setResources(
+        response.data.map((item) => ({
+          ...item,
+          capacity: getRandomInt(100, 50),
+          soc: getRandomInt(100),
+          pluggedIn: !!getRandomInt(2),
+          charging: !!getRandomInt(2),
+        })),
+      ),
+    );
   }
 
   Router.push(routes.MAIN.href);
+
+  return {};
 }
 
 function* signUp(serverAPI, { email, password }) {
