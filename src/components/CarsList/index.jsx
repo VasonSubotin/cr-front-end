@@ -5,9 +5,9 @@ import { Grid, Typography, Button, Card, CardContent, CardActions } from "@mater
 import { DirectionsCar } from "@material-ui/icons";
 
 import { authActions } from "modules/auth";
-import { resourcesSelectors } from "modules/resources";
+import { resourcesSelectors, resourcesActions } from "modules/resources";
 
-export const CarsListComponent = ({ resources, smartCarSignInRequest }) => {
+export const CarsListComponent = ({ resources, smartCarSignInRequest, scheduleRequest }) => {
   const renderEmptyList = () => (
     <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item>
@@ -50,7 +50,9 @@ export const CarsListComponent = ({ resources, smartCarSignInRequest }) => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button variant="outlined">Request schedule</Button>
+              <Button variant="outlined" onClick={() => scheduleRequest(item.resourceId)}>
+                Request schedule
+              </Button>
             </CardActions>
           </Card>
         </Grid>
@@ -71,6 +73,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   smartCarSignInRequest: () => dispatch(authActions.smartCarSignInRequest()),
+  scheduleRequest: (resourceId) => dispatch(resourcesActions.scheduleRequest(resourceId)),
 });
 
 export const CarsList = connect(mapStateToProps, mapDispatchToProps)(CarsListComponent);
