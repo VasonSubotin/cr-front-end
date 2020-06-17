@@ -3,11 +3,11 @@ import { Dialog, DialogTitle, DialogContent, Grid, Typography } from "@material-
 
 import { ResetPasswordForm } from "components/forms/ResetPassword";
 
-export const ForgotPasswordDialog = ({ open, onClose }) => (
+export const ResetPasswordDialog = ({ open, onClose }) => (
   <Dialog open={open} onClose={onClose}>
     <DialogTitle>Recover password</DialogTitle>
     <DialogContent>
-      <Grid container>
+      <Grid container justify="center" spacing={2}>
         <Grid item xs={12}>
           <Typography>
             Please enter the email address for your account. A verification code will be sent to
