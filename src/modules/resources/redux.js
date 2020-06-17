@@ -52,7 +52,7 @@ const scheduleSuccess = (state, { resourceId }) => {
     resources: state.resources.map((item) =>
       item.resourceId === state.scheduleInfo.resourceId ? { ...item, ...state.scheduleInfo } : item,
     ),
-    scheduleInfo: { ...state.scheduleInfo, resourceId },
+    scheduleInfo: { ...scheduleInfoInitialState },
   };
 };
 const scheduleFailure = (state) => ({

@@ -6,6 +6,7 @@ import { withAuth } from "components/hoc/withAuth";
 import { AuthLayout } from "components/Layout";
 import { CarsList } from "components/CarsList";
 import { PolicySelector } from "components/PolicySelector";
+import { Schedule } from "components/Schedule";
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 
 /**
@@ -21,7 +22,7 @@ const MainPage = ({ scheduleInfo, setSchedulePolicyType }) => {
       return <CarsList />;
     }
     if (scheduleInfo.resourceId && scheduleInfo.policyType) {
-      return <CarsList />;
+      return <Schedule />;
     }
 
     return <PolicySelector onSubmit={handlePolicySubmit} />;
