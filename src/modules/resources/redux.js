@@ -32,7 +32,9 @@ export const resourcesSelectors = {
 
   getSelectedResourceId: (state) => state.resources.selectedResourceId,
   getSelectedResource: (state) =>
-    state.resources.find((resource) => resource.resourceId === state.selectedResourceId),
+    state.resources.resources.find(
+      (resource) => resource.resourceId === state.resources.selectedResourceId,
+    ),
 
   getIsShowSchedule: (state) => state.resources.isShowSchedule,
 };
@@ -41,8 +43,11 @@ export const resourcesSelectors = {
 
 const setResources = (state, { resources }) => ({ ...state, resources });
 
-const setSelectedResource = (state, { resourceId }) => ({ ...state, selectedResource: resourceId });
-const clearSelectedResource = (state) => ({ ...state, selectedResource: null });
+const setSelectedResource = (state, { resourceId }) => ({
+  ...state,
+  selectedResourceId: resourceId,
+});
+const clearSelectedResource = (state) => ({ ...state, selectedResourceId: null });
 
 const showSchedule = (state) => ({ ...state, isShowSchedule: true });
 const hideSchedule = (state) => ({ ...state, isShowSchedule: false });

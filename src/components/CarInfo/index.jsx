@@ -5,6 +5,7 @@ import { Grid, Typography, Link, Button } from "@material-ui/core";
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 
 export const CarInfoComponent = ({ selectedResource: car, showSchedule }) => {
+  console.log(car);
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -43,7 +44,9 @@ export const CarInfoComponent = ({ selectedResource: car, showSchedule }) => {
       <Grid item xs={12}>
         <Grid container justify="space-between" spacing={2}>
           <Grid item>
-            <Button onClick={showSchedule}>Request schedule</Button>
+            <Button variant="outlined" onClick={showSchedule}>
+              Request schedule
+            </Button>
           </Grid>
           <Grid item>
             <Link
