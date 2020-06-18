@@ -6,6 +6,8 @@ import immutable from "seamless-immutable";
 const { Types, Creators } = createActions({
   setResources: ["resources"],
 
+  deleteResource: ["resourceId"],
+
   setSelectedResource: ["resourceId"],
   clearSelectedResource: null,
 
@@ -43,6 +45,12 @@ export const resourcesSelectors = {
 
 const setResources = (state, { resources }) => ({ ...state, resources });
 
+const deleteResource = (state, { resourceId }) => ({
+  ...state,
+  resources: state.resources.filter((resource) => resource.resourceId !== resourceId),
+  selectedResourceId: state.selectedResourceId === resourceId ? null : state.selectedResourceId,
+});
+
 const setSelectedResource = (state, { resourceId }) => ({
   ...state,
   selectedResourceId: resourceId,
@@ -56,6 +64,8 @@ const hideSchedule = (state) => ({ ...state, isShowSchedule: false });
 
 export const resourcesReducer = createReducer(resourcesInitialState, {
   [Types.SET_RESOURCES]: setResources,
+
+  [Types.DELETE_RESOURCE]: deleteResource,
 
   [Types.SET_SELECTED_RESOURCE]: setSelectedResource,
   [Types.CLEAR_SELECTED_RESOURCE]: clearSelectedResource,
