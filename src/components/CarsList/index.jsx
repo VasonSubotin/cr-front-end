@@ -1,13 +1,20 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Grid, Typography, Button, Card, CardContent, CardActions } from "@material-ui/core";
+import { Grid, Typography, Button, Card, CardContent, makeStyles } from "@material-ui/core";
 import { DirectionsCar } from "@material-ui/icons";
 
 import { authActions } from "modules/auth";
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 
-export const CarsListComponent = ({ resources, smartCarSignInRequest, scheduleRequest }) => {
+const useStyles = makeStyles(() => ({
+  card: {
+    cursor: "pointer",
+  },
+}));
+
+export const CarsListComponent = ({ resources, smartCarSignInRequest, setSelectedResource }) => {
+  const classes = useStyles();
+
   const renderEmptyList = () => (
     <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item>
@@ -27,33 +34,28 @@ export const CarsListComponent = ({ resources, smartCarSignInRequest, scheduleRe
   const renderCarsList = () => (
     <Grid container spacing={2}>
       {resources.map((item) => (
-        <Grid key={item.resourceId} item xs={4}>
-          <Card variant="outlined">
+        <Grid
+          key={item.resourceId}
+          item
+          xs={4}
+          onClick={() => setSelectedResource(item.resourceId)}
+        >
+          <Card className={classes.card} variant="outlined">
             <CardContent>
               <Typography>
-                ID: <b>{item.resourceId}</b>
-              </Typography>
-              <Typography>
-                Policy type: <b>{item.policyType}</b>
-              </Typography>
-              <Typography>
-                Battery capacity: <b>{item.capacity}kWh</b>
+                Name: <b>{item.name || item.resourceId}</b>
               </Typography>
               <Typography>
                 SOC: <b>{item.soc}%</b>
               </Typography>
               <Typography>
-                Plugged in: <b>{item.pluggedIn ? "true" : "false"}</b>
+                Status:{" "}
+                <b>{item.charging ? "Charging" : item.pluggedIn ? "Plugged In" : "Plugged out"}</b>
               </Typography>
               <Typography>
-                Charging: <b>{item.charging ? "true" : "false"}</b>
+                Policy type: <b>{item.policyType}</b>
               </Typography>
             </CardContent>
-            <CardActions>
-              <Button variant="outlined" onClick={() => scheduleRequest(item.resourceId)}>
-                Request schedule
-              </Button>
-            </CardActions>
           </Card>
         </Grid>
       ))}
@@ -63,17 +65,13 @@ export const CarsListComponent = ({ resources, smartCarSignInRequest, scheduleRe
   return resources.length > 0 ? renderCarsList() : renderEmptyList();
 };
 
-CarsListComponent.propTypes = {
-  smartCarSignInRequest: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = (state) => ({
   resources: resourcesSelectors.getResources(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   smartCarSignInRequest: () => dispatch(authActions.smartCarSignInRequest()),
-  scheduleRequest: (resourceId) => dispatch(resourcesActions.scheduleRequest(resourceId)),
+  setSelectedResource: (resourceId) => dispatch(resourcesActions.setSelectedResource(resourceId)),
 });
 
 export const CarsList = connect(mapStateToProps, mapDispatchToProps)(CarsListComponent);
