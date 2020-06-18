@@ -5,7 +5,7 @@ import { ResetPasswordForm } from "components/forms/ResetPassword";
 
 export const ResetPasswordDialog = ({ open, onClose }) => (
   <Dialog open={open} onClose={onClose}>
-    <DialogTitle>Recover password</DialogTitle>
+    <DialogTitle>Reset password</DialogTitle>
     <DialogContent>
       <Grid container justify="center" spacing={2}>
         <Grid item xs={12}>
@@ -15,7 +15,7 @@ export const ResetPasswordDialog = ({ open, onClose }) => (
             password for your account.
           </Typography>
         </Grid>
-        <Grid item>
+        <Grid item xs={12}>
           <ResetPasswordForm />
         </Grid>
       </Grid>
