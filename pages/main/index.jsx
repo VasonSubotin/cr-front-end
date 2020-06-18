@@ -5,29 +5,30 @@ import { compose } from "redux";
 import { withAuth } from "components/hoc/withAuth";
 import { AuthLayout } from "components/Layout";
 import { CarsList } from "components/CarsList";
+import { CarInfo } from "components/CarInfo";
 import { Schedule } from "components/Schedule";
 import { resourcesSelectors } from "modules/resources";
 
 /**
  * Main page.
  */
-const MainPage = ({ selectedResource, isShowSchedule }) => {
+const MainPage = ({ selectedResourceId, isShowSchedule }) => {
   const renderContent = () => {
-    if (!selectedResource) {
+    if (!selectedResourceId) {
       return <CarsList />;
     }
-    if (selectedResource && isShowSchedule) {
+    if (selectedResourceId && isShowSchedule) {
       return <Schedule />;
     }
 
-    return <CarsList />;
+    return <CarInfo />;
   };
 
   return <AuthLayout>{renderContent()}</AuthLayout>;
 };
 
 const mapStateToProps = (state) => ({
-  selectedResource: resourcesSelectors.getSelectedResource(state),
+  selectedResourceId: resourcesSelectors.getSelectedResourceId(state),
   isShowSchedule: resourcesSelectors.getIsShowSchedule(state),
 });
 

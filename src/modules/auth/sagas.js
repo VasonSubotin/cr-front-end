@@ -37,6 +37,8 @@ function* signIn(serverAPI, { email, password }) {
       resourcesActions.setResources(
         response.data.map((item) => ({
           ...item,
+          name: "",
+          isUseCalendar: !!getRandomInt(2),
           capacity: getRandomInt(100, 50),
           soc: getRandomInt(100),
           pluggedIn: !!getRandomInt(2),

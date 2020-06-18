@@ -50,7 +50,7 @@ export const CarsListComponent = ({ resources, smartCarSignInRequest, setSelecte
               </Typography>
               <Typography>
                 Status:{" "}
-                <b>{item.charging ? "Charging" : item.pluggedIn ? "Plugged In" : "Plugged out"}</b>
+                <b>{item.charging ? "Charging" : item.pluggedIn ? "Plugged in" : "Plugged out"}</b>
               </Typography>
               <Typography>
                 Policy type: <b>{item.policyType}</b>

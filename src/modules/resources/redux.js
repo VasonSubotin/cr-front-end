@@ -20,7 +20,7 @@ export { Types as resourcesTypes, Creators as resourcesActions };
 export const resourcesInitialState = immutable({
   resources: [],
 
-  selectedResource: null,
+  selectedResourceId: null,
 
   isShowSchedule: false,
 });
@@ -30,7 +30,9 @@ export const resourcesInitialState = immutable({
 export const resourcesSelectors = {
   getResources: (state) => state.resources.resources,
 
-  getSelectedResource: (state) => state.resources.selectedResource,
+  getSelectedResourceId: (state) => state.resources.selectedResourceId,
+  getSelectedResource: (state) =>
+    state.resources.find((resource) => resource.resourceId === state.selectedResourceId),
 
   getIsShowSchedule: (state) => state.resources.isShowSchedule,
 };
