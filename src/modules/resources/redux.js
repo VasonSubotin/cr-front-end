@@ -8,6 +8,10 @@ const { Types, Creators } = createActions({
 
   deleteResource: ["resourceId"],
 
+  updateResource: ["resourceId", "data"],
+  updateResourcePolicyType: ["resourceId", "policyType"],
+  updateResourceName: ["resourceId", "policyType"],
+
   setSelectedResource: ["resourceId"],
   clearSelectedResource: null,
 
@@ -51,6 +55,22 @@ const deleteResource = (state, { resourceId }) => ({
   selectedResourceId: state.selectedResourceId === resourceId ? null : state.selectedResourceId,
 });
 
+const updateResource = (state, { resourceId, data }) => ({
+  ...state,
+  resources: state.resources.map((resource) =>
+    resource.resourceId !== resourceId
+      ? resource
+      : {
+          ...resource,
+          ...data,
+        },
+  ),
+});
+const updateResourceName = (state, { resourceId, name }) =>
+  updateResource(state, { resourceId, data: { name } });
+const updateResourcePolicyType = (state, { resourceId, policyType }) =>
+  updateResource(state, { resourceId, data: { policyType } });
+
 const setSelectedResource = (state, { resourceId }) => ({
   ...state,
   selectedResourceId: resourceId,
@@ -66,6 +86,10 @@ export const resourcesReducer = createReducer(resourcesInitialState, {
   [Types.SET_RESOURCES]: setResources,
 
   [Types.DELETE_RESOURCE]: deleteResource,
+
+  [Types.UPDATE_RESOURCE]: updateResource,
+  [Types.UPDATE_RESOURCE_POLICY_TYPE]: updateResourcePolicyType,
+  [Types.UPDATE_RESOURCE_NAME]: updateResourceName,
 
   [Types.SET_SELECTED_RESOURCE]: setSelectedResource,
   [Types.CLEAR_SELECTED_RESOURCE]: clearSelectedResource,

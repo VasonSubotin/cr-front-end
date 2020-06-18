@@ -5,14 +5,20 @@ import { Grid, Typography, Link, Button } from "@material-ui/core";
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 import { PolicySelectDialog } from "components/PolicySelectDialog";
 
-export const CarInfoComponent = ({ selectedResource: car, showSchedule, deleteResource }) => {
+export const CarInfoComponent = ({
+  selectedResource: car,
+  showSchedule,
+  deleteResource,
+  updateResourcePolicyType,
+  updateResourceName,
+}) => {
   const [isShowPolicySelectDialog, setIsShowPolicySelectDialog] = useState(false);
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Grid container wrap="nowrap" spacing={2}>
+          <Grid container wrap="nowrap" alignItems="center" spacing={2}>
             <Grid item>
               <Typography>
                 <b>{car.name || car.resourceId}</b>
@@ -40,7 +46,7 @@ export const CarInfoComponent = ({ selectedResource: car, showSchedule, deleteRe
           <Typography>
             Charging: <b>{car.charging ? "true" : "false"}</b>
           </Typography>
-          <Grid container wrap="nowrap" spacing={2}>
+          <Grid container wrap="nowrap" alignItems="center" spacing={2}>
             <Grid item>
               <Typography>
                 Policy type: <b>{car.policyType}</b>
@@ -52,7 +58,7 @@ export const CarInfoComponent = ({ selectedResource: car, showSchedule, deleteRe
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Grid container justify="space-between" spacing={2}>
+          <Grid container alignItems="center" spacing={2}>
             <Grid item>
               <Button variant="outlined" onClick={showSchedule}>
                 Request schedule
@@ -65,9 +71,7 @@ export const CarInfoComponent = ({ selectedResource: car, showSchedule, deleteRe
         </Grid>
       </Grid>
       <PolicySelectDialog
-        onSubmit={() => {
-          console.log("Change policy:", car.resourceId);
-        }}
+        onSubmit={(policyType) => updateResourcePolicyType(car.resourceId, policyType)}
         open={isShowPolicySelectDialog}
         onClose={() => setIsShowPolicySelectDialog(false)}
       />
@@ -82,6 +86,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   showSchedule: () => dispatch(resourcesActions.showSchedule()),
   deleteResource: (resourceId) => dispatch(resourcesActions.deleteResource(resourceId)),
+  updateResourceName: (resourceId, name) =>
+    dispatch(resourcesActions.updateResourceName(resourceId, name)),
+  updateResourcePolicyType: (resourceId, policyType) =>
+    dispatch(resourcesActions.updateResourcePolicyType(resourceId, policyType)),
   setSelectedResource: (resourceId) => dispatch(resourcesActions.setSelectedResource(resourceId)),
 });
 
