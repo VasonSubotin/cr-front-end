@@ -5,11 +5,17 @@ import { Grid, Typography, Link, Button } from "@material-ui/core";
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 import { PolicySelectDialog } from "components/PolicySelectDialog";
 import { ValidatorDialog } from "components/ValidatorDialog";
+import { ConfirmationDialog } from "components/ConfirmationDialog";
 import { validateName } from "utils/validators";
 
 const ValidatorDialogState = {
   NONE: null,
   NAME: "name",
+};
+
+const ConfirmationDialogState = {
+  NONE: null,
+  DELETE: "remove",
 };
 
 export const CarInfoComponent = ({
@@ -21,6 +27,9 @@ export const CarInfoComponent = ({
 }) => {
   const [isShowPolicySelectDialog, setIsShowPolicySelectDialog] = useState(false);
   const [validatorDialogState, setValidatorDialogState] = useState(ValidatorDialogState.NONE);
+  const [confirmationDialogState, setConfirmationDialogState] = useState(
+    ConfirmationDialogState.NONE,
+  );
 
   const renderValidatorDialog = () => {
     let title;
@@ -29,7 +38,7 @@ export const CarInfoComponent = ({
 
     switch (validatorDialogState) {
       case ValidatorDialogState.NAME:
-        title = "Change resource name";
+        title = "Change car name";
         formData = {
           [ValidatorDialogState.NAME]: {
             validator: validateName,
@@ -52,6 +61,35 @@ export const CarInfoComponent = ({
         onClose={() => setValidatorDialogState(ValidatorDialogState.NONE)}
         proceedButtonText="Change"
         {...{ title, formData, onValidated }}
+      />
+    );
+  };
+
+  const renderConfirmationDialog = () => {
+    let title;
+    let text;
+    let onConfirmed;
+
+    switch (confirmationDialogState) {
+      case ConfirmationDialogState.DELETE:
+        title = "Car deletion";
+        text = "Are you sure you want to delete the car?";
+        onConfirmed = () => {
+          deleteResource(car.resourceId);
+          setConfirmationDialogState(ConfirmationDialogState.NONE);
+        };
+        break;
+      default:
+        title = null;
+        text = null;
+        onConfirmed = () => ({});
+    }
+
+    return (
+      <ConfirmationDialog
+        open={!!confirmationDialogState}
+        onClose={() => setConfirmationDialogState(ConfirmationDialogState.NONE)}
+        {...{ title, text, onConfirmed }}
       />
     );
   };
@@ -101,7 +139,9 @@ export const CarInfoComponent = ({
               </Button>
             </Grid>
             <Grid item>
-              <Link onClick={() => deleteResource(car.resourceId)}>Remove resource</Link>
+              <Link onClick={() => setConfirmationDialogState(ConfirmationDialogState.DELETE)}>
+                Delete car
+              </Link>
             </Grid>
           </Grid>
         </Grid>
@@ -112,6 +152,7 @@ export const CarInfoComponent = ({
         onClose={() => setIsShowPolicySelectDialog(false)}
       />
       {renderValidatorDialog()}
+      {renderConfirmationDialog()}
     </>
   );
 };
