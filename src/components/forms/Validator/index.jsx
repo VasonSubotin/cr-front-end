@@ -3,7 +3,7 @@ import { Grid, Button, TextField } from "@material-ui/core";
 
 import { useForm } from "components/hooks/useForm";
 
-export const ValidatorForm = ({ onValidated, formData }) => {
+export const ValidatorForm = ({ onValidated, formData, proceedButtonText }) => {
   const { formFields, getFormFieldsValues, validateForm, handleFieldChange } = useForm(formData);
 
   const onSubmit = async (event) => {
@@ -18,7 +18,7 @@ export const ValidatorForm = ({ onValidated, formData }) => {
 
   const renderFormFields = () =>
     Object.keys(formFields).map((key) => (
-      <Grid item xs={12}>
+      <Grid key={key} item xs={12}>
         <TextField fullWidth onChange={handleFieldChange} variant="outlined" {...formFields[key]} />
       </Grid>
     ));
@@ -28,7 +28,7 @@ export const ValidatorForm = ({ onValidated, formData }) => {
       {renderFormFields()}
       <Grid item>
         <Button type="submit" variant="outlined" color="primary">
-          Sign in
+          {proceedButtonText || "Validate"}
         </Button>
       </Grid>
     </Grid>

@@ -4,6 +4,13 @@ import { Grid, Typography, Link, Button } from "@material-ui/core";
 
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 import { PolicySelectDialog } from "components/PolicySelectDialog";
+import { ValidatorDialog } from "components/ValidatorDialog";
+import { validateName } from "utils/validators";
+
+const ValidatorDialogState = {
+  NONE: null,
+  NAME: "name",
+};
 
 export const CarInfoComponent = ({
   selectedResource: car,
@@ -13,6 +20,41 @@ export const CarInfoComponent = ({
   updateResourceName,
 }) => {
   const [isShowPolicySelectDialog, setIsShowPolicySelectDialog] = useState(false);
+  const [validatorDialogState, setValidatorDialogState] = useState(ValidatorDialogState.NONE);
+
+  const renderValidatorDialog = () => {
+    let title;
+    let formData;
+    let onValidated;
+
+    switch (validatorDialogState) {
+      case ValidatorDialogState.NAME:
+        title = "Change resource name";
+        formData = {
+          [ValidatorDialogState.NAME]: {
+            validator: validateName,
+            label: "Name",
+            defaultValue: car.name || "",
+          },
+        };
+        onValidated = ({ [ValidatorDialogState.NAME]: name }) =>
+          updateResourceName(car.resourceId, name);
+        break;
+      default:
+        title = null;
+        formData = {};
+        onValidated = () => ({});
+    }
+
+    return (
+      <ValidatorDialog
+        open={!!validatorDialogState}
+        onClose={() => setValidatorDialogState(ValidatorDialogState.NONE)}
+        proceedButtonText="Change"
+        {...{ title, formData, onValidated }}
+      />
+    );
+  };
 
   return (
     <>
@@ -25,13 +67,7 @@ export const CarInfoComponent = ({
               </Typography>
             </Grid>
             <Grid item>
-              <Link
-                onClick={() => {
-                  console.log("Edit car name:", car.name || car.resourceId);
-                }}
-              >
-                Edit
-              </Link>
+              <Link onClick={() => setValidatorDialogState(ValidatorDialogState.NAME)}>Edit</Link>
             </Grid>
           </Grid>
           <Typography>
@@ -75,6 +111,7 @@ export const CarInfoComponent = ({
         open={isShowPolicySelectDialog}
         onClose={() => setIsShowPolicySelectDialog(false)}
       />
+      {renderValidatorDialog()}
     </>
   );
 };

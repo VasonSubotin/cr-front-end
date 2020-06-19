@@ -10,7 +10,7 @@ const { Types, Creators } = createActions({
 
   updateResource: ["resourceId", "data"],
   updateResourcePolicyType: ["resourceId", "policyType"],
-  updateResourceName: ["resourceId", "policyType"],
+  updateResourceName: ["resourceId", "name"],
 
   setSelectedResource: ["resourceId"],
   clearSelectedResource: null,
