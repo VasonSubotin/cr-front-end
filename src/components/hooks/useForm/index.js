@@ -62,5 +62,15 @@ export const useForm = (fieldsData) => {
     });
   };
 
-  return { formFields, validateForm, handleFieldChange };
+  const getFormFieldsValues = () => {
+    let valuesObj = {};
+
+    Object.keys(formFields).forEach((key) => {
+      valuesObj[key] = formFields[key].value;
+    });
+
+    return valuesObj;
+  };
+
+  return { formFields, validateForm, handleFieldChange, getFormFieldsValues };
 };

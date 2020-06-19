@@ -65,13 +65,7 @@ const SignInFormComponent = ({ signInRequest }) => {
         />
       </Grid>
       <Grid item>
-        <Button
-          disabled={processing}
-          onChange={handleFieldChange}
-          type="submit"
-          variant="outlined"
-          color="primary"
-        >
+        <Button disabled={processing} type="submit" variant="outlined" color="primary">
           Sign in
         </Button>
       </Grid>

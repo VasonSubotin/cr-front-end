@@ -81,13 +81,7 @@ export const SignUpFormComponent = ({ signUpRequest }) => {
         />
       </Grid>
       <Grid item>
-        <Button
-          disabled={processing}
-          onChange={handleFieldChange}
-          type="submit"
-          variant="outlined"
-          color="primary"
-        >
+        <Button disabled={processing} type="submit" variant="outlined" color="primary">
           Sign up
         </Button>
       </Grid>
