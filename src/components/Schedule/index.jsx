@@ -4,7 +4,7 @@ import { Grid, Button, Typography } from "@material-ui/core";
 
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 
-export const ScheduleComponent = ({ scheduleInfo, scheduleSuccess }) => {
+export const ScheduleComponent = ({ selectedResource: car, hideSchedule }) => {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
@@ -24,11 +24,11 @@ export const ScheduleComponent = ({ scheduleInfo, scheduleSuccess }) => {
           Location: <b>50.499745, 30.5131822</b>
         </Typography>
         <Typography>
-          Adreess: <b>1300 El Camino Real, San Francisco</b>
+          Address: <b>1300 El Camino Real, San Francisco</b>
         </Typography>
       </Grid>
       <Grid item>
-        <Button variant="outlined" onClick={scheduleSuccess}>
+        <Button variant="outlined" onClick={hideSchedule}>
           Close
         </Button>
       </Grid>
@@ -37,11 +37,11 @@ export const ScheduleComponent = ({ scheduleInfo, scheduleSuccess }) => {
 };
 
 const mapStateToProps = (state) => ({
-  scheduleInfo: resourcesSelectors.getScheduleInfo(state),
+  selectedResource: resourcesSelectors.getSelectedResource(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  scheduleSuccess: () => dispatch(resourcesActions.scheduleSuccess()),
+  hideSchedule: () => dispatch(resourcesActions.hideSchedule()),
 });
 
 export const Schedule = connect(mapStateToProps, mapDispatchToProps)(ScheduleComponent);
