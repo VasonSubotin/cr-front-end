@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Grid, Button, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 
-export const ScheduleComponent = ({ selectedResource: car, hideSchedule }) => {
+export const ScheduleComponent = ({ selectedResource: car }) => {
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
@@ -26,11 +26,6 @@ export const ScheduleComponent = ({ selectedResource: car, hideSchedule }) => {
         <Typography>
           Address: <b>1300 El Camino Real, San Francisco</b>
         </Typography>
-      </Grid>
-      <Grid item>
-        <Button variant="outlined" onClick={hideSchedule}>
-          Close
-        </Button>
       </Grid>
     </Grid>
   );
