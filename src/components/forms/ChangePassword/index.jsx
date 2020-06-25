@@ -1,28 +1,33 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { Grid, Button, TextField } from "@material-ui/core";
 
-import { authActions } from "modules/auth";
-import { validateEmail, validatePassword } from "utils/validators";
+import { validatePassword, validatePasswordMismatch } from "utils/validators";
 import { useForm } from "components/hooks/useForm";
 
 const FormFields = {
-  EMAIL: "email",
-  PASSWORD: "password",
+  CURRENT_PASSWORD: "current_password",
+  NEW_PASSWORD: "new_password",
+  NEW_PASSWORD_CONFIRMATION: "new_password_confirmation",
 };
 
-const SignInFormComponent = ({ signInByCredentialsRequest }) => {
+export const ChangePasswordForm = ({ onSubmitted }) => {
   const [processing, setProcessing] = useState(false);
 
   const { formFields, validateForm, handleFieldChange } = useForm({
-    [FormFields.EMAIL]: {
-      validator: validateEmail,
-      label: "Email",
-      defaultValue: "test@te.st",
-    },
-    [FormFields.PASSWORD]: {
+    [FormFields.CURRENT_PASSWORD]: {
       validator: validatePassword,
-      label: "Password",
+      label: "Current password",
+      defaultValue: "Test2Test",
+    },
+    [FormFields.NEW_PASSWORD]: {
+      validator: validatePassword,
+      label: "New password",
+      defaultValue: "Test2Test",
+    },
+    [FormFields.NEW_PASSWORD_CONFIRMATION]: {
+      validator: validatePasswordMismatch,
+      validatorArgFields: [FormFields.NEW_PASSWORD, FormFields.NEW_PASSWORD_CONFIRMATION],
+      label: "Repeat new password",
       defaultValue: "Test2Test",
     },
   });
@@ -34,10 +39,8 @@ const SignInFormComponent = ({ signInByCredentialsRequest }) => {
     const isValidationFailed = validateForm();
 
     if (!isValidationFailed) {
-      await signInByCredentialsRequest(
-        formFields[FormFields.EMAIL].value,
-        formFields[FormFields.PASSWORD].value,
-      );
+      console.log("Password changed");
+      onSubmitted();
     }
 
     setProcessing(false);
@@ -51,7 +54,7 @@ const SignInFormComponent = ({ signInByCredentialsRequest }) => {
           disabled={processing}
           onChange={handleFieldChange}
           variant="outlined"
-          {...formFields[FormFields.EMAIL]}
+          {...formFields[FormFields.CURRENT_PASSWORD]}
         />
       </Grid>
       <Grid item xs={12}>
@@ -60,21 +63,23 @@ const SignInFormComponent = ({ signInByCredentialsRequest }) => {
           disabled={processing}
           onChange={handleFieldChange}
           variant="outlined"
-          {...formFields[FormFields.PASSWORD]}
+          {...formFields[FormFields.NEW_PASSWORD]}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          disabled={processing}
+          onChange={handleFieldChange}
+          variant="outlined"
+          {...formFields[FormFields.NEW_PASSWORD_CONFIRMATION]}
         />
       </Grid>
       <Grid item>
         <Button disabled={processing} type="submit" variant="outlined" color="primary">
-          Sign in
+          Confirm
         </Button>
       </Grid>
     </Grid>
   );
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  signInByCredentialsRequest: (email, password) =>
-    dispatch(authActions.signInByCredentialsRequest(email, password)),
-});
-
-export const SignInForm = connect(null, mapDispatchToProps)(SignInFormComponent);
