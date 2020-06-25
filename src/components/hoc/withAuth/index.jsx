@@ -16,7 +16,6 @@ const withAuthHoc = (WrappedComponent) =>
 
       const isAllAuthCookies = authServices.isAllAuthCookies(authCookies);
 
-      console.log(ctx.res);
       if (ctx.req && !isAllAuthCookies) {
         ctx.res.writeHead(302, { Location: routes.SIGN_IN.href });
         ctx.res.end();
@@ -36,10 +35,10 @@ const withAuthHoc = (WrappedComponent) =>
     }
 
     componentDidMount() {
-      const { isSignedIn, signInByCookies, authCookies, blurWindow } = this.props;
+      const { isSignedIn, signInByCookiesRequest, authCookies, blurWindow } = this.props;
 
       if (!isSignedIn) {
-        signInByCookies(authCookies);
+        signInByCookiesRequest(authCookies);
       }
 
       this.focusWindow();
@@ -93,11 +92,11 @@ const withAuthHoc = (WrappedComponent) =>
     };
 
     continueSession = debounce(() => {
-      const { signOut } = this.props;
+      const { signOutRequest } = this.props;
 
       const lastestActiveWindow = authServices.getLatestWindowIdCookie();
       if (lastestActiveWindow === this.uuid) {
-        signOut();
+        signOutRequest();
       }
     }, consts.SESSION_EXPIRE_ACTIVE_PAGE);
 
@@ -132,8 +131,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   focusWindow: (uuid) => dispatch(uiActions.onWindowFocus(uuid)),
   blurWindow: () => dispatch(uiActions.onWindowBlur()),
-  signOut: () => dispatch(authActions.signOutRequest()),
-  signInByCookies: (data) => dispatch(authActions.signInByCookiesRequest(data)),
+  signOutRequest: () => dispatch(authActions.signOutRequest()),
+  signInByCookiesRequest: (data) => dispatch(authActions.signInByCookiesRequest(data)),
 });
 
 export const withAuth = compose(connect(mapStateToProps, mapDispatchToProps), withAuthHoc);
