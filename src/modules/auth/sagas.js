@@ -11,7 +11,7 @@ import { authTypes, authActions } from "./redux";
 const TAG = "[AuthSagas]";
 
 function* signIn(serverAPI, { email, password }) {
-  let { response } = yield call(serverAPI.authenticate, { userName: email, password });
+  let { response } = yield call(serverAPI.authenticate, { login: email, password });
 
   if (response.status !== 200) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
@@ -27,26 +27,24 @@ function* signIn(serverAPI, { email, password }) {
   yield put(accountActions.setUserInfo(email));
   yield put(authActions.signInSuccess());
 
-  ({ response } = yield call(serverAPI.getUserProfile));
-  console.log("Profile", response.data);
+  // ({ response } = yield call(serverAPI.getResources));
+  // console.log("Resources", response.data);
 
-  ({ response } = yield call(serverAPI.getUserResources));
-
-  if (response.data) {
-    yield put(
-      resourcesActions.setResources(
-        response.data.map((item) => ({
-          ...item,
-          name: "",
-          isUseCalendar: !!getRandomInt(2),
-          capacity: getRandomInt(100, 50),
-          soc: getRandomInt(100),
-          pluggedIn: !!getRandomInt(2),
-          charging: !!getRandomInt(2),
-        })),
-      ),
-    );
-  }
+  // if (response.data) {
+  //   yield put(
+  //     resourcesActions.setResources(
+  //       response.data.map((item) => ({
+  //         ...item,
+  //         name: "",
+  //         isUseCalendar: !!getRandomInt(2),
+  //         capacity: getRandomInt(100, 50),
+  //         soc: getRandomInt(100),
+  //         pluggedIn: !!getRandomInt(2),
+  //         charging: !!getRandomInt(2),
+  //       })),
+  //     ),
+  //   );
+  // }
 
   Router.push(routes.MAIN.href);
 
@@ -54,7 +52,8 @@ function* signIn(serverAPI, { email, password }) {
 }
 
 function* signUp(serverAPI, { email, password }) {
-  const { response } = yield call(serverAPI.signUp, { userName: email, password });
+  const { response } = yield call(serverAPI.signUp, { login: email, password });
+  console.log(response);
 
   if (response.status !== 200) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
@@ -64,9 +63,7 @@ function* signUp(serverAPI, { email, password }) {
   }
 
   const { error } = yield call(signIn, serverAPI, { email, password });
-
   if (error) {
-    yield put(authActions.signUpFailure(error));
     return;
   }
 

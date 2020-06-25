@@ -2,12 +2,10 @@ import { APIBase } from "../APIBase";
 
 export class ServerAPI extends APIBase {
   // GET
-  getUserProfile = () => this.get("getUserProfile");
-  getUserResources = () => this.get("getUserResources");
+  getResources = () => this.get("resources");
   smartCarSignIn = () => this.get("login");
 
   // POST
-  authenticate = ({ userName, password }) =>
-    this.post("authenticate", { username: userName, password });
-  signUp = ({ userName, password }) => this.post("signup", { username: userName, password });
+  authenticate = ({ ...data }) => this.post("authenticate", { ...data });
+  signUp = ({ ...data }) => this.post("signup", { ...data });
 }
