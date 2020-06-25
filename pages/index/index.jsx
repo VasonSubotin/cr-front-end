@@ -5,13 +5,14 @@ import { Grid, Button, Link } from "@material-ui/core";
 import { routes } from "config";
 import { NonAuthLayout } from "components/Layout";
 import { SignInForm } from "components/forms/SignIn";
-import { ResetPasswordDialog } from "components/ResetPasswordDialog";
+import { FormDialog } from "components/FormDialog";
+import { ResetPasswordForm } from "components/forms/ResetPassword";
 
 /**
  * Home (login) page.
  */
 const HomePage = () => {
-  const [showResetPasswordDialog, setShowResetPasswordDialog] = useState(false);
+  const [isShowResetPasswordDialog, setIsShowResetPasswordDialog] = useState(false);
 
   return (
     <NonAuthLayout>
@@ -34,17 +35,21 @@ const HomePage = () => {
               </NextLink>
             </Grid>
             <Grid item>
-              <Link color="primary" onClick={() => setShowResetPasswordDialog(true)}>
+              <Link color="primary" onClick={() => setIsShowResetPasswordDialog(true)}>
                 Forgot password?
               </Link>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <ResetPasswordDialog
-        open={showResetPasswordDialog}
-        onClose={() => setShowResetPasswordDialog(false)}
-      />
+      <FormDialog
+        title="Reset password"
+        text="Please enter the email address for your account. A verification code will be sent to you. Once you have received the verification code, you will be able to choose a new password for your account."
+        open={isShowResetPasswordDialog}
+        onClose={() => setIsShowResetPasswordDialog(false)}
+      >
+        <ResetPasswordForm />
+      </FormDialog>
     </NonAuthLayout>
   );
 };
