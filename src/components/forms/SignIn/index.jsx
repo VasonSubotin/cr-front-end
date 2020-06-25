@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Grid, Button, TextField } from "@material-ui/core";
 
@@ -12,7 +11,7 @@ const FormFields = {
   PASSWORD: "password",
 };
 
-const SignInFormComponent = ({ signInRequest }) => {
+const SignInFormComponent = ({ signInByCredentialsRequest }) => {
   const [processing, setProcessing] = useState(false);
 
   const { formFields, validateForm, handleFieldChange } = useForm({
@@ -35,7 +34,7 @@ const SignInFormComponent = ({ signInRequest }) => {
     const isValidationFailed = validateForm();
 
     if (!isValidationFailed) {
-      await signInRequest(
+      await signInByCredentialsRequest(
         formFields[FormFields.EMAIL].value,
         formFields[FormFields.PASSWORD].value,
       );
@@ -73,12 +72,8 @@ const SignInFormComponent = ({ signInRequest }) => {
   );
 };
 
-SignInFormComponent.propTypes = {
-  signInRequest: PropTypes.func.isRequired,
-};
-
 const mapDispatchToProps = (dispatch) => ({
-  signInRequest: (email, password) => dispatch(authActions.signInRequest(email, password)),
+  signInByCredentialsRequest: (email, password) => dispatch(authActions.signInByCredentialsRequest(email, password)),
 });
 
 export const SignInForm = connect(null, mapDispatchToProps)(SignInFormComponent);

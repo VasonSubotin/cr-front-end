@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Head from "next/head";
 import App from "next/app";
 import { END } from "redux-saga";
@@ -52,11 +51,6 @@ WrappedApp.getInitialProps = async ({ Component, ctx }) => {
   }
 
   return { pageProps };
-};
-
-WrappedApp.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  pageProps: PropTypes.object.isRequired,
 };
 
 export default storeWrapper.withRedux(WrappedApp);

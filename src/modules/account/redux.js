@@ -4,7 +4,8 @@ import immutable from "seamless-immutable";
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  setUserInfo: ["email"],
+  setUserInfo: ["userInfo"],
+  setUserEmail: ["email"],
 });
 
 export { Types as accountTypes, Creators as accountActions };
@@ -26,10 +27,12 @@ export const accountSelectors = {
 
 /* ------------- Reducers ------------- */
 
-const setUserInfo = (state, { email }) => ({ ...state, user: { ...state.user, email } });
+const setUserInfo = (state, { userInfo }) => ({ ...state, user: { ...state.user, ...userInfo } });
+const setUserEmail = (state, { email }) => ({ ...state, user: { ...state.user, email } });
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const accountReducer = createReducer(accountInitialState, {
   [Types.SET_USER_INFO]: setUserInfo,
+  [Types.SET_USER_EMAIL]: setUserEmail,
 });

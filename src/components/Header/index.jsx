@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import NextLink from "next/link";
 import { connect } from "react-redux";
 import { AppBar, Container, Button, Grid, makeStyles } from "@material-ui/core";
@@ -50,10 +49,6 @@ const HeaderComponent = ({ signOutRequest }) => {
       </Container>
     </AppBar>
   );
-};
-
-HeaderComponent.propTypes = {
-  signOutRequest: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

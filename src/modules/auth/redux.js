@@ -4,12 +4,13 @@ import immutable from "seamless-immutable";
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  signInRequest: ["email", "password"],
-  signInSuccess: [],
+  signInByCredentialsRequest: ["email", "password"],
+  signInByCookiesRequest: ["authCookies"],
+  signInSuccess: ["tokenType", "accessToken"],
   signInFailure: ["error"],
 
   signUpRequest: ["email", "password"],
-  signUpSuccess: [],
+  signUpSuccess: null,
   signUpFailure: ["error"],
 
   smartCarSignInRequest: null,
@@ -24,6 +25,9 @@ export { Types as authTypes, Creators as authActions };
 export const authInitialState = immutable({
   isSignedIn: false,
 
+  tokenType: null,
+  accessToken: null,
+
   signInError: null,
 });
 
@@ -32,13 +36,22 @@ export const authInitialState = immutable({
 export const authSelectors = {
   getIsSignedIn: (state) => state.auth.isSignedIn,
 
+  getTokenType: (state) => state.auth.tokenType,
+  getAccessToken: (state) => state.auth.accessToken,
+
   getSignInError: (state) => state.auth.signInError,
 };
 
 /* ------------- Reducers ------------- */
 
 const signInRequest = (state) => ({ ...state, signInError: null });
-const signInSuccess = (state) => ({ ...state, isSignedIn: true, signInError: null });
+const signInSuccess = (state, { accessToken, tokenType }) => ({
+  ...state,
+  isSignedIn: true,
+  signInError: null,
+  accessToken,
+  tokenType,
+});
 const signInFailure = (state, { error }) => ({ ...state, signInError: error });
 
 const smartCarLoginRequest = (state) => ({ ...state });
@@ -46,7 +59,8 @@ const smartCarLoginRequest = (state) => ({ ...state });
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const authReducer = createReducer(authInitialState, {
-  [Types.SIGN_IN_REQUEST]: signInRequest,
+  [Types.SIGN_IN_BY_CREDENTIALS_REQUEST]: signInRequest,
+  [Types.SIGN_IN_BY_COOKIES_REQUEST]: signInRequest,
   [Types.SIGN_IN_SUCCESS]: signInSuccess,
   [Types.SIGN_IN_FAILURE]: signInFailure,
 

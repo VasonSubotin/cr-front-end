@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Grid, Button, TextField } from "@material-ui/core";
 
@@ -87,10 +86,6 @@ export const SignUpFormComponent = ({ signUpRequest }) => {
       </Grid>
     </Grid>
   );
-};
-
-SignUpFormComponent.propTypes = {
-  signUpRequest: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

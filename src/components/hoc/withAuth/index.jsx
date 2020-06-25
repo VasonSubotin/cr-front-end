@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
@@ -7,7 +6,7 @@ import { debounce } from "utils/debounce";
 import { manageEventListeners } from "utils/manageEventListeners";
 import { getUuid } from "utils/getUuid";
 import { consts, routes } from "config";
-import { authActions, authServices, authSelectors, authPropTypes } from "modules/auth";
+import { authActions, authServices, authSelectors } from "modules/auth";
 import { uiActions, uiSelectors } from "modules/ui";
 
 const withAuthHoc = (WrappedComponent) =>
@@ -124,16 +123,6 @@ const withAuthHoc = (WrappedComponent) =>
       return <WrappedComponent {...rest} />;
     }
   };
-
-withAuthHoc.propTypes = {
-  authCookies: authPropTypes.AUTH_COOKIES,
-  signOut: PropTypes.func.isRequired,
-  signInByCookies: PropTypes.func.isRequired,
-  focusWindow: PropTypes.func.isRequired,
-  blurWindow: PropTypes.func.isRequired,
-  isSignedIn: PropTypes.bool,
-  isFocused: PropTypes.bool,
-};
 
 const mapStateToProps = (state) => ({
   isSignedIn: authSelectors.getIsSignedIn(state),
