@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Grid, Button, TextField } from "@material-ui/core";
 
+import { consts } from "config";
 import { authActions } from "modules/auth";
 import { validateEmail, validatePassword } from "utils/validators";
 import { useForm } from "components/hooks/useForm";
@@ -18,12 +19,12 @@ const SignInFormComponent = ({ disabled, signInByCredentialsRequest }) => {
     [FormFields.EMAIL]: {
       validator: validateEmail,
       label: "Email",
-      defaultValue: "test@te.st",
+      defaultValue: consts.DEFAULT_EMAIL,
     },
     [FormFields.PASSWORD]: {
       validator: validatePassword,
       label: "Password",
-      defaultValue: "Test2Test",
+      defaultValue: consts.DEFAULT_PASSWORD,
     },
   });
 

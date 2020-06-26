@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 
+import { consts } from "config";
 import { validateEmail } from "utils/validators";
 import { useForm } from "components/hooks/useForm";
 
@@ -15,7 +16,7 @@ export const ResetPasswordForm = () => {
     [FormFields.EMAIL]: {
       validator: validateEmail,
       label: "Email",
-      defaultValue: "test@te.st",
+      defaultValue: consts.DEFAULT_EMAIL,
     },
   });
 

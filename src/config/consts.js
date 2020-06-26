@@ -6,7 +6,13 @@ export const IS_DEV = process.env.IS_DEV;
 /**
  * Server settings.
  */
-export const SERVER_URL = process.env.SERVER_URL;
+export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
+/**
+ * User settings.
+ */
+export const DEFAULT_EMAIL = process.env.NEXT_PUBLIC_DEFAULT_EMAIL;
+export const DEFAULT_PASSWORD = process.env.NEXT_PUBLIC_DEFAULT_PASSWORD;
 
 /**
  * Session/auth settings.

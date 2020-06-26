@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Grid, Button, TextField } from "@material-ui/core";
 
+import { consts } from "config";
 import { authActions } from "modules/auth";
 import { validateEmail, validatePassword, validatePasswordMismatch } from "utils/validators";
 import { useForm } from "components/hooks/useForm";
@@ -19,18 +20,18 @@ export const SignUpFormComponent = ({ signUpRequest }) => {
     [FormFields.EMAIL]: {
       validator: validateEmail,
       label: "Email",
-      defaultValue: "test@te.st",
+      defaultValue: consts.DEFAULT_EMAIL,
     },
     [FormFields.PASSWORD]: {
       validator: validatePassword,
       label: "Password",
-      defaultValue: "Test2Test",
+      defaultValue: consts.DEFAULT_PASSWORD,
     },
     [FormFields.PASSWORD_CONFIRMATION]: {
       validator: validatePasswordMismatch,
       validatorArgFields: [FormFields.PASSWORD, FormFields.PASSWORD_CONFIRMATION],
       label: "Confirm password",
-      defaultValue: "Test2Test",
+      defaultValue: consts.DEFAULT_PASSWORD,
     },
   });
 

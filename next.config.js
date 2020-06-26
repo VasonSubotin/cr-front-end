@@ -3,8 +3,6 @@ const withBundleAnalyzer = require("@zeit/next-bundle-analyzer");
 const withSourceMaps = require("@zeit/next-source-maps");
 const withFonts = require("next-fonts");
 
-const getEnvVar = (key, defaultValue) => process.env[key] || defaultValue;
-
 const nextConfig = {
   webpack: (config) => {
     const originalEntry = config.entry;
@@ -43,7 +41,6 @@ const nextConfig = {
 
   env: {
     IS_DEV: process.env.NODE_ENV === "development",
-    SERVER_URL: getEnvVar("SERVER_URL", "http://localhost:8080"),
   },
 };
 

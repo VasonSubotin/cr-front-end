@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Button, TextField } from "@material-ui/core";
 
+import { consts } from "config";
 import { validatePassword, validatePasswordMismatch } from "utils/validators";
 import { useForm } from "components/hooks/useForm";
 
@@ -17,18 +18,18 @@ export const ChangePasswordForm = ({ onSubmitted }) => {
     [FormFields.CURRENT_PASSWORD]: {
       validator: validatePassword,
       label: "Current password",
-      defaultValue: "Test2Test",
+      defaultValue: consts.DEFAULT_PASSWORD,
     },
     [FormFields.NEW_PASSWORD]: {
       validator: validatePassword,
       label: "New password",
-      defaultValue: "Test2Test",
+      defaultValue: consts.DEFAULT_PASSWORD,
     },
     [FormFields.NEW_PASSWORD_CONFIRMATION]: {
       validator: validatePasswordMismatch,
       validatorArgFields: [FormFields.NEW_PASSWORD, FormFields.NEW_PASSWORD_CONFIRMATION],
       label: "Repeat new password",
-      defaultValue: "Test2Test",
+      defaultValue: consts.DEFAULT_PASSWORD,
     },
   });
 
