@@ -2,6 +2,7 @@ import { APIBase } from "../APIBase";
 
 export class ServerAPI extends APIBase {
   // GET
+  signInByGoogle = () => this.get("googleLogin");
   getAccounts = () => this.get("accounts");
   getResources = () => this.get("resources");
   smartCarSignIn = () => this.get("login");

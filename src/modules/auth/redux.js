@@ -4,6 +4,7 @@ import immutable from "seamless-immutable";
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
+  signInByGoogleRequest: null,
   signInByCredentialsRequest: ["email", "password"],
   signInByCookiesRequest: ["authCookies"],
   signInSuccess: ["tokenType", "accessToken"],
@@ -44,7 +45,7 @@ export const authSelectors = {
 
 /* ------------- Reducers ------------- */
 
-const signInRequest = (state) => ({ ...state, signInError: null });
+const signInRequest = (state) => ({ ...state, isSignedIn: false, signInError: null });
 const signInSuccess = (state, { accessToken, tokenType }) => ({
   ...state,
   isSignedIn: true,
@@ -59,6 +60,7 @@ const smartCarLoginRequest = (state) => ({ ...state });
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const authReducer = createReducer(authInitialState, {
+  [Types.SIGN_IN_BY_GOOGLE_REQUEST]: signInRequest,
   [Types.SIGN_IN_BY_CREDENTIALS_REQUEST]: signInRequest,
   [Types.SIGN_IN_BY_COOKIES_REQUEST]: signInRequest,
   [Types.SIGN_IN_SUCCESS]: signInSuccess,

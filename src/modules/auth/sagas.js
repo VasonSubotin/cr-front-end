@@ -9,6 +9,11 @@ import * as authServices from "./services";
 
 const TAG = "[AuthSagas]";
 
+function* signInByGoogle(serverAPI) {
+  const { response } = yield call(serverAPI.signInByGoogle);
+  console.log(response);
+}
+
 function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {
   yield call(serverAPI.setAccessToken, accessToken);
 
@@ -97,6 +102,7 @@ function* smartCarSignIn(serverAPI) {
 
 export function* authSaga(serverAPI) {
   yield all([
+    takeLatest(authTypes.SIGN_IN_BY_GOOGLE_REQUEST, signInByGoogle, serverAPI),
     takeLatest(authTypes.SIGN_IN_BY_CREDENTIALS_REQUEST, signInByCredentials, serverAPI),
     takeLatest(authTypes.SIGN_IN_BY_COOKIES_REQUEST, signInByCookies, serverAPI),
     takeLatest(authTypes.SIGN_UP_REQUEST, signUp, serverAPI),

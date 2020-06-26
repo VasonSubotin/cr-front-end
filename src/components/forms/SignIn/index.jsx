@@ -11,7 +11,7 @@ const FormFields = {
   PASSWORD: "password",
 };
 
-const SignInFormComponent = ({ signInByCredentialsRequest }) => {
+const SignInFormComponent = ({ disabled, signInByCredentialsRequest }) => {
   const [processing, setProcessing] = useState(false);
 
   const { formFields, validateForm, handleFieldChange } = useForm({
@@ -48,7 +48,7 @@ const SignInFormComponent = ({ signInByCredentialsRequest }) => {
       <Grid item xs={12}>
         <TextField
           fullWidth
-          disabled={processing}
+          disabled={processing || disabled}
           onChange={handleFieldChange}
           variant="outlined"
           {...formFields[FormFields.EMAIL]}
@@ -57,14 +57,14 @@ const SignInFormComponent = ({ signInByCredentialsRequest }) => {
       <Grid item xs={12}>
         <TextField
           fullWidth
-          disabled={processing}
+          disabled={processing || disabled}
           onChange={handleFieldChange}
           variant="outlined"
           {...formFields[FormFields.PASSWORD]}
         />
       </Grid>
       <Grid item>
-        <Button disabled={processing} type="submit" variant="outlined" color="primary">
+        <Button disabled={processing || disabled} type="submit" variant="outlined" color="primary">
           Sign in
         </Button>
       </Grid>
