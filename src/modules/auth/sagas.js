@@ -2,9 +2,7 @@ import Router from "next/router";
 import { put, all, call, takeLatest } from "redux-saga/effects";
 
 import { routes, consts } from "config";
-// import { getRandomInt } from "utils/getRandomInt";
 import { accountActions } from "modules/account";
-// import { resourcesActions } from "modules/resources";
 
 import { authTypes, authActions } from "./redux";
 import * as authServices from "./services";
@@ -16,6 +14,14 @@ function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {
 
   yield put(accountActions.setUserEmail(email));
   yield put(authActions.signInSuccess(tokenType, accessToken));
+
+  let { response } = yield call(serverAPI.getResources);
+  console.log("Resources");
+  console.log(response);
+
+  console.log("Accounts");
+  ({ response } = yield call(serverAPI.getAccounts));
+  console.log(response);
 
   Router.push(routes.MAIN.href);
 }
