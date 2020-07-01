@@ -11,4 +11,6 @@ export class ServerAPI extends APIBase {
   authenticate = ({ ...data }) => this.post("authenticate", { ...data });
   signUp = ({ ...data }) => this.post("signup", { ...data });
   startGoogleSession = ({ code, ...data }) => this.post(`googleSession?code=${code}`, { ...data });
+  startSmartCarSession = ({ code, ...data }) =>
+    this.post(`smartCarSession?code=${code}`, { ...data });
 }

@@ -5,30 +5,30 @@ import { NonAuthLayout } from "components/Layout";
 import { routes } from "config";
 
 /**
- * Page handling Google Auth callback.
+ * Page handling SmartCar Auth callback.
  */
-const GoogleTokenPage = () => <NonAuthLayout>Authorizing on Ev-Charge...</NonAuthLayout>;
+const AuthorizedPage = () => <NonAuthLayout>Authorizing on Ev-Charge...</NonAuthLayout>;
 
-GoogleTokenPage.getInitialProps = async ({ query: { code }, res, req }) => {
+AuthorizedPage.getInitialProps = async ({ query: { code }, res, req }) => {
   const redirect = (route) => {
     if (req && route.href) {
       res.writeHead(302, { Location: route.href });
       res.end();
     } else {
-      console.error("[GoogleToken page] Redirect is not possible.");
+      console.error("[SmartCarToken page] Redirect is not possible.");
     }
   };
 
   if (!code) {
     redirect(routes.SIGN_IN);
   } else {
-    const { response } = await serverAPI.startGoogleSession({ code });
+    const { response } = await serverAPI.startSmartCarSession({ code });
 
     if (response.ok) {
       redirect(routes.MAIN);
     } else {
       console.error(
-        "[GoogleSession]: Unable to start session:",
+        "[SmartCarSession]: Unable to start session:",
         response.data.status,
         response.data.message,
       );
@@ -37,4 +37,4 @@ GoogleTokenPage.getInitialProps = async ({ query: { code }, res, req }) => {
   }
 };
 
-export default GoogleTokenPage;
+export default AuthorizedPage;
