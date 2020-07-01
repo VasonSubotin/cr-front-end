@@ -4,7 +4,7 @@ import immutable from "seamless-immutable";
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  signInByGoogleRequest: null,
+  signInByGoogleRequest: ["gapi"],
   signInByCredentialsRequest: ["email", "password"],
   signInByCookiesRequest: ["authCookies"],
   signInSuccess: ["tokenType", "accessToken"],

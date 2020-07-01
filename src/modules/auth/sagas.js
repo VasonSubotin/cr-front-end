@@ -9,9 +9,29 @@ import * as authServices from "./services";
 
 const TAG = "[AuthSagas]";
 
-function* signInByGoogle(serverAPI) {
-  const { response } = yield call(serverAPI.signInByGoogle);
-  console.log(response);
+function* signInByGoogle(serverAPI, payload) {
+  const loadGoogleAuth2Library = () =>
+    new Promise((resolve, reject) => {
+      payload.gapi.load("auth2", {
+        callback: () => resolve(payload.gapi),
+        onerror: (err) => reject(err),
+        timeout: 5000,
+        ontimeout: () => reject(new Error("Google OAuth timeout error")),
+      });
+    });
+
+  console.log(payload);
+  try {
+    yield loadGoogleAuth2Library();
+    yield payload.gapi.auth2.init({
+      client_id: consts.GOOGLE_CLIENT_ID,
+      cookiepolicy: "single_host_origin",
+      scope: "profile email openid https://www.googleapis.com/auth/calendar",
+      discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+    });
+  } catch (err) {
+    console.error(TAG, err);
+  }
 }
 
 function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {

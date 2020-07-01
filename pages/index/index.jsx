@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import NextLink from "next/link";
 import { Grid, Button } from "@material-ui/core";
 import { connect } from "react-redux";
-import { GoogleLogin } from "react-google-login";
 
 import { routes } from "config";
 import { authActions } from "modules/auth";
@@ -14,42 +13,19 @@ import { ResetPasswordForm } from "components/forms/ResetPassword";
 /**
  * Home (login) page.
  */
-const HomePageComponent = ({ signInByGoogleRequest }) => {
+const HomePageComponent = () => {
   const [processing, setProcessing] = useState(false);
   const [isShowResetPasswordDialog, setIsShowResetPasswordDialog] = useState(false);
-
-  // const handleGoogleSignInClick = async () => {
-  //   setProcessing(true);
-
-  //   await signInByGoogleRequest();
-
-  //   setProcessing(false);
-  // };
 
   return (
     <NonAuthLayout>
       <Grid container justify="center" spacing={4}>
         <Grid item>
-          {/* <Button
-            disabled={processing}
-            variant="outlined"
-            color="primary"
-            onClick={handleGoogleSignInClick}
-          >
-            Sign in with Google
-          </Button> */}
-          <GoogleLogin
-            clientId="71249136768-shikkvane8oavgk2028fgfvbh04o6his.apps.googleusercontent.com"
-            cookiePolicy="single_host_origin"
-            scope="profile email openid https://www.googleapis.com/auth/calendar"
-            buttonText="Sign in with Google"
-            onSuccess={(res) => {
-              console.log(res);
-            }}
-            onFailure={(res) => {
-              console.log(res);
-            }}
-          />
+          <NextLink href={routes.GOOGLE_SIGN_IN.href} passHref>
+            <Button disabled={processing} variant="outlined" color="primary">
+              {routes.GOOGLE_SIGN_IN.text}
+            </Button>
+          </NextLink>
         </Grid>
         <Grid item xs={12}>
           <SignInForm disabled={processing} />
@@ -59,7 +35,7 @@ const HomePageComponent = ({ signInByGoogleRequest }) => {
             <Grid item>
               <NextLink href={routes.SIGN_UP.href} passHref>
                 <Button variant="text" disabled={processing}>
-                  Sign up
+                  {routes.SIGN_UP.text}
                 </Button>
               </NextLink>
             </Grid>
@@ -88,7 +64,7 @@ const HomePageComponent = ({ signInByGoogleRequest }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  signInByGoogleRequest: () => dispatch(authActions.signInByGoogleRequest()),
+  signInByGoogleRequest: (gapi) => dispatch(authActions.signInByGoogleRequest(gapi)),
 });
 
 export default connect(null, mapDispatchToProps)(HomePageComponent);

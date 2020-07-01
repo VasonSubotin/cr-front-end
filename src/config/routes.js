@@ -1,3 +1,5 @@
+import { SERVER_URL } from "./consts";
+
 /**
  * Possible link types (internal/external).
  */
@@ -42,5 +44,20 @@ export const SESSION = {
 export const SETTINGS = {
   text: "Settings",
   href: "/settings",
+  type: LinkTypes.INTERNAL,
+};
+
+/**
+ * Server redirection links.
+ */
+export const GOOGLE_SIGN_IN = {
+  text: "Sign in with Google",
+  href: `${SERVER_URL}/googleLogin`,
+  type: LinkTypes.INTERNAL,
+};
+
+export const SMART_CAR_SIGN_IN = {
+  text: "Add a car",
+  href: `${SERVER_URL}/smartCarLogin`,
   type: LinkTypes.INTERNAL,
 };

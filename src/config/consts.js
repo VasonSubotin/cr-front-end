@@ -15,6 +15,11 @@ export const DEFAULT_EMAIL = process.env.NEXT_PUBLIC_DEFAULT_EMAIL;
 export const DEFAULT_PASSWORD = process.env.NEXT_PUBLIC_DEFAULT_PASSWORD;
 
 /**
+ * Access keys/IDs.
+ */
+export const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
+/**
  * Session/auth settings.
  */
 export const COOKIE_OPTIONS = {
