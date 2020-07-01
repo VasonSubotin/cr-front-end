@@ -12,8 +12,12 @@ import { ResetPasswordForm } from "components/forms/ResetPassword";
  * Home (login) page.
  */
 const HomePage = () => {
-  const [processing, setProcessing] = useState(false);
+  const [processingSignIn, setProcessingSignIn] = useState(false);
   const [isShowResetPasswordDialog, setIsShowResetPasswordDialog] = useState(false);
+
+  const handleProcessingSignInChange = (processing) => {
+    setProcessingSignIn(processing);
+  };
 
   return (
     <NonAuthLayout>
@@ -21,7 +25,7 @@ const HomePage = () => {
         <Grid item>
           <Button
             href={routes.GOOGLE_SIGN_IN.href}
-            disabled={processing}
+            disabled={processingSignIn}
             variant="outlined"
             color="primary"
           >
@@ -29,13 +33,13 @@ const HomePage = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <SignInForm disabled={processing} />
+          <SignInForm onProcessingChange={handleProcessingSignInChange} />
         </Grid>
         <Grid item xs={12}>
           <Grid container justify="space-between">
             <Grid item>
               <NextLink href={routes.SIGN_UP.href} passHref>
-                <Button variant="text" disabled={processing}>
+                <Button variant="text" disabled={processingSignIn}>
                   {routes.SIGN_UP.text}
                 </Button>
               </NextLink>
@@ -43,7 +47,7 @@ const HomePage = () => {
             <Grid item>
               <Button
                 variant="text"
-                disabled={processing}
+                disabled={processingSignIn}
                 onClick={() => setIsShowResetPasswordDialog(true)}
               >
                 Forgot password?

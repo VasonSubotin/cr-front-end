@@ -13,7 +13,7 @@ const FormFields = {
   PASSWORD_CONFIRMATION: "password_confirmation",
 };
 
-export const SignUpFormComponent = ({ signUpRequest }) => {
+export const SignUpFormComponent = ({ disabled, signUpRequest, onProcessingChange }) => {
   const [processing, setProcessing] = useState(false);
 
   const { formFields, validateForm, handleFieldChange } = useForm({
@@ -38,6 +38,7 @@ export const SignUpFormComponent = ({ signUpRequest }) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
+    onProcessingChange(true);
 
     const isValidationFailed = validateForm();
 
@@ -49,37 +50,26 @@ export const SignUpFormComponent = ({ signUpRequest }) => {
     }
 
     setProcessing(false);
+    onProcessingChange(false);
   };
+
+  const renderFormField = (fieldName) => (
+    <Grid item xs={12}>
+      <TextField
+        fullWidth
+        disabled={processing || disabled}
+        onChange={handleFieldChange}
+        variant="outlined"
+        {...formFields[fieldName]}
+      />
+    </Grid>
+  );
 
   return (
     <Grid onSubmit={onSubmit} component="form" container justify="center" spacing={2}>
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          disabled={processing}
-          onChange={handleFieldChange}
-          variant="outlined"
-          {...formFields[FormFields.EMAIL]}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          disabled={processing}
-          onChange={handleFieldChange}
-          variant="outlined"
-          {...formFields[FormFields.PASSWORD]}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          fullWidth
-          disabled={processing}
-          onChange={handleFieldChange}
-          variant="outlined"
-          {...formFields[FormFields.PASSWORD_CONFIRMATION]}
-        />
-      </Grid>
+      {renderFormField(FormFields.EMAIL)}
+      {renderFormField(FormFields.PASSWORD)}
+      {renderFormField(FormFields.PASSWORD_CONFIRMATION)}
       <Grid item>
         <Button disabled={processing} type="submit" variant="outlined" color="primary">
           Sign up
