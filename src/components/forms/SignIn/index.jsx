@@ -31,7 +31,9 @@ const SignInFormComponent = ({ disabled, signInByCredentialsRequest, onProcessin
   const onSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
-    onProcessingChange(true);
+    if (onProcessingChange) {
+      onProcessingChange(true);
+    }
 
     const isValidationFailed = validateForm();
 
@@ -43,7 +45,9 @@ const SignInFormComponent = ({ disabled, signInByCredentialsRequest, onProcessin
     }
 
     setProcessing(false);
-    onProcessingChange(false);
+    if (onProcessingChange) {
+      onProcessingChange(false);
+    }
   };
 
   const renderFormField = (fieldName) => (

@@ -38,7 +38,9 @@ export const SignUpFormComponent = ({ disabled, signUpRequest, onProcessingChang
   const onSubmit = async (event) => {
     event.preventDefault();
     setProcessing(true);
-    onProcessingChange(true);
+    if (onProcessingChange) {
+      onProcessingChange(true);
+    }
 
     const isValidationFailed = validateForm();
 
@@ -50,7 +52,9 @@ export const SignUpFormComponent = ({ disabled, signUpRequest, onProcessingChang
     }
 
     setProcessing(false);
-    onProcessingChange(false);
+    if (onProcessingChange) {
+      onProcessingChange(false);
+    }
   };
 
   const renderFormField = (fieldName) => (
