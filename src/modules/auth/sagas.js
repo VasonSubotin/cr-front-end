@@ -9,31 +9,6 @@ import * as authServices from "./services";
 
 const TAG = "[AuthSagas]";
 
-function* signInByGoogle(serverAPI, payload) {
-  const loadGoogleAuth2Library = () =>
-    new Promise((resolve, reject) => {
-      payload.gapi.load("auth2", {
-        callback: () => resolve(payload.gapi),
-        onerror: (err) => reject(err),
-        timeout: 5000,
-        ontimeout: () => reject(new Error("Google OAuth timeout error")),
-      });
-    });
-
-  console.log(payload);
-  try {
-    yield loadGoogleAuth2Library();
-    yield payload.gapi.auth2.init({
-      client_id: consts.GOOGLE_CLIENT_ID,
-      cookiepolicy: "single_host_origin",
-      scope: "profile email openid https://www.googleapis.com/auth/calendar",
-      discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
-    });
-  } catch (err) {
-    console.error(TAG, err);
-  }
-}
-
 function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {
   yield call(serverAPI.setAccessToken, accessToken);
 
@@ -83,7 +58,6 @@ function* signInByCredentials(serverAPI, { email, password }) {
 
 function* signUp(serverAPI, { email, password }) {
   const { response } = yield call(serverAPI.signUp, { login: email, password });
-  console.log(response);
 
   if (response.status !== 200) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
@@ -122,7 +96,6 @@ function* smartCarSignIn(serverAPI) {
 
 export function* authSaga(serverAPI) {
   yield all([
-    takeLatest(authTypes.SIGN_IN_BY_GOOGLE_REQUEST, signInByGoogle, serverAPI),
     takeLatest(authTypes.SIGN_IN_BY_CREDENTIALS_REQUEST, signInByCredentials, serverAPI),
     takeLatest(authTypes.SIGN_IN_BY_COOKIES_REQUEST, signInByCookies, serverAPI),
     takeLatest(authTypes.SIGN_UP_REQUEST, signUp, serverAPI),

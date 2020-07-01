@@ -26,4 +26,4 @@ const createStore = () => {
   return store;
 };
 
-export const storeWrapper = createWrapper(createStore, { debug: true });
+export const storeWrapper = createWrapper(createStore, { debug: false });

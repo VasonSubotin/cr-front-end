@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import NextLink from "next/link";
 import { Grid, Button } from "@material-ui/core";
-import { connect } from "react-redux";
 
 import { routes } from "config";
-import { authActions } from "modules/auth";
 import { NonAuthLayout } from "components/Layout";
 import { SignInForm } from "components/forms/SignIn";
 import { FormDialog } from "components/FormDialog";
@@ -13,7 +11,7 @@ import { ResetPasswordForm } from "components/forms/ResetPassword";
 /**
  * Home (login) page.
  */
-const HomePageComponent = () => {
+const HomePage = () => {
   const [processing, setProcessing] = useState(false);
   const [isShowResetPasswordDialog, setIsShowResetPasswordDialog] = useState(false);
 
@@ -21,11 +19,14 @@ const HomePageComponent = () => {
     <NonAuthLayout>
       <Grid container justify="center" spacing={4}>
         <Grid item>
-          <NextLink href={routes.GOOGLE_SIGN_IN.href} passHref>
-            <Button disabled={processing} variant="outlined" color="primary">
-              {routes.GOOGLE_SIGN_IN.text}
-            </Button>
-          </NextLink>
+          <Button
+            href={routes.GOOGLE_SIGN_IN.href}
+            disabled={processing}
+            variant="outlined"
+            color="primary"
+          >
+            {routes.GOOGLE_SIGN_IN.text}
+          </Button>
         </Grid>
         <Grid item xs={12}>
           <SignInForm disabled={processing} />
@@ -63,8 +64,4 @@ const HomePageComponent = () => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  signInByGoogleRequest: (gapi) => dispatch(authActions.signInByGoogleRequest(gapi)),
-});
-
-export default connect(null, mapDispatchToProps)(HomePageComponent);
+export default HomePage;
