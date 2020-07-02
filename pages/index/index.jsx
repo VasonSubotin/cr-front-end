@@ -7,7 +7,7 @@ import { NonAuthLayout } from "components/Layout";
 import { SignInForm } from "components/forms/SignIn";
 import { FormDialog } from "components/FormDialog";
 import { ResetPasswordForm } from "components/forms/ResetPassword";
-import { withCookiesAuthAttempt } from "components/hoc/withCookiesAuthAttempt";
+import { withNonAuthPage } from "components/hoc/withNonAuthPage";
 
 /**
  * Home (login) page.
@@ -69,4 +69,4 @@ const HomePage = () => {
   );
 };
 
-export default withCookiesAuthAttempt(HomePage);
+export default withNonAuthPage(HomePage);

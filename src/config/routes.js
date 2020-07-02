@@ -47,6 +47,18 @@ export const SETTINGS = {
   type: LinkTypes.INTERNAL,
 };
 
+export const AUTHORIZED = {
+  href: "/authorized",
+};
+
+export const GOOGLE_TOKEN = {
+  href: "/googleToken",
+};
+
+export const NON_AUTH_ROUTES = [SIGN_IN, SIGN_UP];
+
+export const AUTH_ROUTES = [MAIN, DEMO, SESSION, SETTINGS, AUTHORIZED, GOOGLE_TOKEN];
+
 /**
  * Server redirection links.
  */

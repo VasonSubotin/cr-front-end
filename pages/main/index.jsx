@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { withAuth } from "components/hoc/withAuth";
+import { withAuthPage } from "components/hoc/withAuthPage";
 import { AuthLayout } from "components/Layout";
 import { CarsList } from "components/CarsList";
 import { CarInfo } from "components/CarInfo";
@@ -40,4 +40,4 @@ const mapDispatchToProps = (dispatch) => ({
   setSelectedResource: (resourceId) => dispatch(resourcesActions.setSelectedResource(resourceId)),
 });
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), withAuth)(MainPage);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withAuthPage)(MainPage);

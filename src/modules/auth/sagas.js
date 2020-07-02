@@ -19,17 +19,12 @@ function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {
   console.log("Resources");
   console.log(response);
 
-  console.log("Accounts");
   ({ response } = yield call(serverAPI.getAccounts));
+  console.log("Accounts");
   console.log(response);
-
-  Router.push(routes.MAIN.href);
 }
 
 function* signInByCookies(serverAPI, { authCookies }) {
-  // Update cookies expiration time
-  authServices.setAuthCookiesExpiration(consts.ONE_DAY);
-
   yield call(signInSumUp, serverAPI, authCookies);
 }
 
@@ -83,23 +78,11 @@ function* signOut(serverAPI) {
   Router.push(routes.SIGN_IN.href);
 }
 
-function* smartCarSignIn(serverAPI) {
-  const { response } = yield call(serverAPI.smartCarSignIn);
-
-  if (response.status !== 200) {
-    const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
-    yield put(authActions.signInSuccess(message));
-    console.error(message);
-    return;
-  }
-}
-
 export function* authSaga(serverAPI) {
   yield all([
     takeLatest(authTypes.SIGN_IN_BY_CREDENTIALS_REQUEST, signInByCredentials, serverAPI),
     takeLatest(authTypes.SIGN_IN_BY_COOKIES_REQUEST, signInByCookies, serverAPI),
     takeLatest(authTypes.SIGN_UP_REQUEST, signUp, serverAPI),
-    takeLatest(authTypes.SMART_CAR_SIGN_IN_REQUEST, smartCarSignIn, serverAPI),
     takeLatest(authTypes.SIGN_OUT_REQUEST, signOut, serverAPI),
   ]);
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 
-import { withAuth } from "components/hoc/withAuth";
+import { withAuthPage } from "components/hoc/withAuthPage";
 import { AuthLayout } from "components/Layout";
 import { FormDialog } from "components/FormDialog";
 import { ChangePasswordForm } from "components/forms/ChangePassword";
@@ -32,4 +32,4 @@ const SettingsPage = () => {
   );
 };
 
-export default withAuth(SettingsPage);
+export default withAuthPage(SettingsPage);

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { serverAPI } from "api";
+import { withAuthPage } from "components/hoc/withAuthPage";
 import { NonAuthLayout } from "components/Layout";
 import { routes } from "config";
 
@@ -23,6 +24,7 @@ AuthorizedPage.getInitialProps = async ({ query: { code }, res, req }) => {
     redirect(routes.SIGN_IN);
   } else {
     const { response } = await serverAPI.startSmartCarSession({ code });
+    console.log(response);
 
     if (response.ok) {
       redirect(routes.MAIN);
@@ -37,4 +39,4 @@ AuthorizedPage.getInitialProps = async ({ query: { code }, res, req }) => {
   }
 };
 
-export default AuthorizedPage;
+export default withAuthPage(AuthorizedPage);

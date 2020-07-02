@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withAuth } from "components/hoc/withAuth";
+import { withAuthPage } from "components/hoc/withAuthPage";
 import { AuthLayout } from "components/Layout";
 
 /**
@@ -8,4 +8,4 @@ import { AuthLayout } from "components/Layout";
  */
 const SessionPage = () => <AuthLayout>Session page</AuthLayout>;
 
-export default withAuth(SessionPage);
+export default withAuthPage(SessionPage);

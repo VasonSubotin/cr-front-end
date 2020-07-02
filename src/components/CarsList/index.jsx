@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Grid, Typography, Button, Card, CardContent, makeStyles } from "@material-ui/core";
 import { DirectionsCar } from "@material-ui/icons";
 
+import { routes } from "config";
 import { authActions } from "modules/auth";
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 
@@ -12,7 +13,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const CarsListComponent = ({ resources, smartCarSignInRequest, setSelectedResource }) => {
+export const CarsListComponent = ({ resources, setSelectedResource }) => {
   const classes = useStyles();
 
   const renderEmptyList = () => (
@@ -24,8 +25,8 @@ export const CarsListComponent = ({ resources, smartCarSignInRequest, setSelecte
         <Typography>You have not added your car yet</Typography>
       </Grid>
       <Grid item>
-        <Button onClick={smartCarSignInRequest} variant="contained" color="primary">
-          Add a car
+        <Button href={routes.SMART_CAR_SIGN_IN.href} variant="contained" color="primary">
+          {routes.SMART_CAR_SIGN_IN.text}
         </Button>
       </Grid>
     </Grid>
@@ -70,7 +71,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  smartCarSignInRequest: () => dispatch(authActions.smartCarSignInRequest()),
   setSelectedResource: (resourceId) => dispatch(resourcesActions.setSelectedResource(resourceId)),
 });
 

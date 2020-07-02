@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { Grid, Button, Typography } from "@material-ui/core";
 
 import { routes } from "config";
-import { withCookiesAuthAttempt } from "components/hoc/withCookiesAuthAttempt";
+import { withNonAuthPage } from "components/hoc/withNonAuthPage";
 import { NonAuthLayout } from "components/Layout";
 import { SignUpForm } from "components/forms/SignUp";
 
@@ -38,4 +38,4 @@ const SignUpPage = () => {
   );
 };
 
-export default withCookiesAuthAttempt(SignUpPage);
+export default withNonAuthPage(SignUpPage);
