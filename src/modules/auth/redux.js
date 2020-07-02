@@ -13,6 +13,8 @@ const { Types, Creators } = createActions({
   signUpSuccess: null,
   signUpFailure: ["error"],
 
+  setSmartCarToken: ["smartCarToken"],
+
   signOutRequest: null,
 });
 
@@ -25,6 +27,7 @@ export const authInitialState = immutable({
 
   tokenType: null,
   accessToken: null,
+  smartCarToken: null,
 
   signInError: null,
 });
@@ -36,6 +39,7 @@ export const authSelectors = {
 
   getTokenType: (state) => state.auth.tokenType,
   getAccessToken: (state) => state.auth.accessToken,
+  getSmartCarToken: (state) => state.auth.smartCarToken,
 
   getSignInError: (state) => state.auth.signInError,
 };
@@ -52,6 +56,8 @@ const signInSuccess = (state, { accessToken, tokenType }) => ({
 });
 const signInFailure = (state, { error }) => ({ ...state, signInError: error });
 
+const setSmartCarToken = (state, { smartCarToken }) => ({ ...state, smartCarToken });
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const authReducer = createReducer(authInitialState, {
@@ -64,4 +70,6 @@ export const authReducer = createReducer(authInitialState, {
   [Types.SIGN_UP_REQUEST]: signInRequest,
   [Types.SIGN_UP_SUCCESS]: signInSuccess,
   [Types.SIGN_UP_FAILURE]: signInFailure,
+
+  [Types.SET_SMART_CAR_TOKEN]: setSmartCarToken,
 });

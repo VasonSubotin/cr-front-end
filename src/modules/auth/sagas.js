@@ -1,7 +1,7 @@
 import Router from "next/router";
 import { put, all, call, takeLatest } from "redux-saga/effects";
 
-import { routes, consts } from "config";
+import { routes } from "config";
 import { accountActions } from "modules/account";
 
 import { authTypes, authActions } from "./redux";
@@ -15,13 +15,13 @@ function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {
   yield put(accountActions.setUserEmail(email));
   yield put(authActions.signInSuccess(tokenType, accessToken));
 
-  let { response } = yield call(serverAPI.getResources);
-  console.log("Resources");
-  console.log(response);
+  // let { response } = yield call(serverAPI.getResources);
+  // console.log("Resources");
+  // console.log(response);
 
-  ({ response } = yield call(serverAPI.getAccounts));
-  console.log("Accounts");
-  console.log(response);
+  // ({ response } = yield call(serverAPI.getAccounts));
+  // console.log("Accounts");
+  // console.log(response);
 }
 
 function* signInByCookies(serverAPI, { authCookies }) {
