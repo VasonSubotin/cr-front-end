@@ -15,10 +15,6 @@ function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {
   yield put(accountActions.setUserEmail(email));
   yield put(authActions.signInSuccess(tokenType, accessToken));
 
-  // let { response } = yield call(serverAPI.getResources);
-  // console.log("Resources");
-  // console.log(response);
-
   // ({ response } = yield call(serverAPI.getAccounts));
   // console.log("Accounts");
   // console.log(response);
@@ -51,9 +47,31 @@ function* signInByCredentials(serverAPI, { email, password }) {
   yield call(signInSumUp, serverAPI, authData);
 }
 
-function setSmartCarToken({ smartCarToken }) {
-  console.log("setting token", smartCarToken);
+function* setSmartCarToken(serverAPI, { smartCarToken }) {
+  let response;
+  try {
+    ({ response } = yield serverAPI.startSmartCarSession({ code: smartCarToken }));
+    console.log("Token");
+    console.log(response);
+
+    if (!response.ok) {
+      console.error(
+        "[SmartCarSession]: Unable to start SmartCar session:",
+        response.data.status,
+        response.data.message,
+      );
+      return;
+    }
+  } catch (err) {
+    console.error("[SmartCarSession]: Unable to start SmartCar session:", err.status, err.message);
+    return;
+  }
+
   authServices.setSmartCarTokenCookie(smartCarToken);
+
+  ({ response } = yield call(serverAPI.getResources));
+  console.log("Resources");
+  console.log(response);
 }
 
 function* signUp(serverAPI, { email, password }) {
@@ -87,7 +105,7 @@ export function* authSaga(serverAPI) {
   yield all([
     takeLatest(authTypes.SIGN_IN_BY_CREDENTIALS_REQUEST, signInByCredentials, serverAPI),
     takeLatest(authTypes.SIGN_IN_BY_COOKIES_REQUEST, signInByCookies, serverAPI),
-    takeLatest(authTypes.SET_SMART_CAR_TOKEN, setSmartCarToken),
+    takeLatest(authTypes.SET_SMART_CAR_TOKEN, setSmartCarToken, serverAPI),
     takeLatest(authTypes.SIGN_UP_REQUEST, signUp, serverAPI),
     takeLatest(authTypes.SIGN_OUT_REQUEST, signOut, serverAPI),
   ]);
