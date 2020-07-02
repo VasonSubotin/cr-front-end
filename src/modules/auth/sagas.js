@@ -3,6 +3,7 @@ import { put, all, call, takeLatest } from "redux-saga/effects";
 
 import { routes } from "config";
 import { accountActions } from "modules/account";
+import { resourcesSagas } from "modules/resources";
 
 import { authTypes, authActions } from "./redux";
 import * as authServices from "./services";
@@ -27,7 +28,7 @@ function* signInByCookies(serverAPI, { authCookies }) {
 function* signInByCredentials(serverAPI, { email, password }) {
   let { response } = yield call(serverAPI.authenticate, { login: email, password });
 
-  if (response.status !== 200) {
+  if (!response.ok) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
     yield put(authActions.signInFailure(message));
     console.error(message);
@@ -49,6 +50,8 @@ function* signInByCredentials(serverAPI, { email, password }) {
 
 function* setSmartCarToken(serverAPI, { smartCarToken }) {
   let response;
+  yield call(resourcesSagas.getResources, serverAPI);
+
   try {
     ({ response } = yield serverAPI.startSmartCarSession({ code: smartCarToken }));
     console.log("Token");
@@ -56,28 +59,27 @@ function* setSmartCarToken(serverAPI, { smartCarToken }) {
 
     if (!response.ok) {
       console.error(
-        "[SmartCarSession]: Unable to start SmartCar session:",
+        TAG,
+        "Unable to start SmartCar session:",
         response.data.status,
         response.data.message,
       );
       return;
     }
   } catch (err) {
-    console.error("[SmartCarSession]: Unable to start SmartCar session:", err.status, err.message);
+    console.error(TAG, "Unable to start SmartCar session:", err.message);
     return;
   }
 
   authServices.setSmartCarTokenCookie(smartCarToken);
 
-  ({ response } = yield call(serverAPI.getResources));
-  console.log("Resources");
-  console.log(response);
+  yield call(resourcesSagas.getResources, serverAPI);
 }
 
 function* signUp(serverAPI, { email, password }) {
   const { response } = yield call(serverAPI.signUp, { login: email, password });
 
-  if (response.status !== 200) {
+  if (!response.ok) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
     yield put(authActions.signUpFailure(message));
     console.error(message);
