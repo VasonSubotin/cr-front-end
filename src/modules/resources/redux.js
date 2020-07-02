@@ -1,5 +1,6 @@
 import { createReducer, createActions } from "reduxsauce";
 import immutable from "seamless-immutable";
+import { HYDRATE } from "next-redux-wrapper";
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -47,6 +48,8 @@ export const resourcesSelectors = {
 
 /* ------------- Reducers ------------- */
 
+const hydrate = (state, { payload }) => ({ ...state, ...payload.resources });
+
 const setResources = (state, { resources }) => ({ ...state, resources });
 
 const deleteResource = (state, { resourceId }) => ({
@@ -83,6 +86,8 @@ const hideSchedule = (state) => ({ ...state, isShowSchedule: false });
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const resourcesReducer = createReducer(resourcesInitialState, {
+  [HYDRATE]: hydrate,
+
   [Types.SET_RESOURCES]: setResources,
 
   [Types.DELETE_RESOURCE]: deleteResource,

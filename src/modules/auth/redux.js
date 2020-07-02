@@ -1,5 +1,6 @@
 import { createReducer, createActions } from "reduxsauce";
 import immutable from "seamless-immutable";
+import { HYDRATE } from "next-redux-wrapper";
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -46,6 +47,8 @@ export const authSelectors = {
 
 /* ------------- Reducers ------------- */
 
+const hydrate = (state, { payload }) => ({ ...state, ...payload.auth });
+
 const signInRequest = (state) => ({ ...state, isSignedIn: false, signInError: null });
 const signInSuccess = (state, { accessToken, tokenType }) => ({
   ...state,
@@ -61,6 +64,8 @@ const setSmartCarToken = (state, { smartCarToken }) => ({ ...state, smartCarToke
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const authReducer = createReducer(authInitialState, {
+  [HYDRATE]: hydrate,
+
   [Types.SIGN_IN_BY_CREDENTIALS_REQUEST]: signInRequest,
   [Types.SIGN_IN_BY_COOKIES_REQUEST]: signInRequest,
   [Types.SIGN_IN_SUCCESS]: signInSuccess,

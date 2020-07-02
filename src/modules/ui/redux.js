@@ -1,5 +1,6 @@
 import { createActions, createReducer } from "reduxsauce";
 import Immutable from "seamless-immutable";
+import { HYDRATE } from "next-redux-wrapper";
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -24,12 +25,16 @@ export const uiSelectors = {
 
 /* ------------- Reducers ------------- */
 
+const hydrate = (state, { payload }) => ({ ...state, ...payload.ui });
+
 const onWindowFocus = (state) => ({ ...state, isFocused: true });
 const onWindowBlur = (state) => ({ ...state, isFocused: false });
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const uiReducer = createReducer(initStateUi, {
+  [HYDRATE]: hydrate,
+
   [Types.ON_WINDOW_FOCUS]: onWindowFocus,
   [Types.ON_WINDOW_BLUR]: onWindowBlur,
 });

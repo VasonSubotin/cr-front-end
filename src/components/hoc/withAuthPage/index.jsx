@@ -12,33 +12,20 @@ import { uiActions } from "modules/ui";
 const withAuthPageHoc = (WrappedComponent) =>
   class Auth extends Component {
     static getInitialProps = async (ctx) => {
-      const redirect = (route) => {
-        if (ctx.req && route.href) {
-          ctx.res.writeHead(302, { Location: route.href });
-          ctx.res.end();
-        } else {
-          console.error("[Auth page] Redirect is not possible.");
-        }
-      };
-
       const authCookies = authServices.getNextJsAuthCookies(ctx);
+
       const isAllAuthCookies = authServices.isAllAuthCookies(authCookies);
 
       if (ctx.req && !isAllAuthCookies) {
-        redirect(routes.SIGN_IN);
-      } else {
-        authServices.setAuthCookiesExpiration(consts.ONE_DAY);
-      }
-
-      const isSignedIn = authSelectors.getIsSignedIn(ctx.store.getState());
-      if (!isSignedIn) {
-        await ctx.store.dispatch(authActions.signInByCookiesRequest(authCookies));
+        ctx.res.writeHead(302, { Location: routes.SIGN_IN.href });
+        ctx.res.end();
+        return;
       }
 
       const componentProps =
         WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
 
-      return { ...componentProps };
+      return { ...componentProps, authCookies };
     };
 
     constructor(props) {
@@ -48,7 +35,11 @@ const withAuthPageHoc = (WrappedComponent) =>
     }
 
     componentDidMount() {
-      const { blurWindow } = this.props;
+      const { isSignedIn, signInByCookiesRequest, authCookies, blurWindow } = this.props;
+
+      if (!isSignedIn) {
+        signInByCookiesRequest(authCookies);
+      }
 
       this.focusWindow();
 
@@ -111,22 +102,35 @@ const withAuthPageHoc = (WrappedComponent) =>
 
     syncLogout = (e) => {
       if (e.key === "logout") {
-        const { signOutRequest } = this.props;
+        const { signOut } = this.props;
 
-        signOutRequest();
+        signOut();
       }
     };
 
     render() {
-      const { signOut, focusWindow, blurWindow, ...rest } = this.props;
+      const {
+        authCookies,
+        signOut,
+        signInByCookies,
+        focusWindow,
+        blurWindow,
+        isSignedIn,
+        ...rest
+      } = this.props;
       return <WrappedComponent {...rest} />;
     }
   };
+
+const mapStateToProps = (state) => ({
+  isSignedIn: authSelectors.getIsSignedIn(state),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   focusWindow: (uuid) => dispatch(uiActions.onWindowFocus(uuid)),
   blurWindow: () => dispatch(uiActions.onWindowBlur()),
   signOutRequest: () => dispatch(authActions.signOutRequest()),
+  signInByCookiesRequest: (data) => dispatch(authActions.signInByCookiesRequest(data)),
 });
 
-export const withAuthPage = compose(connect(null, mapDispatchToProps), withAuthPageHoc);
+export const withAuthPage = compose(connect(mapStateToProps, mapDispatchToProps), withAuthPageHoc);

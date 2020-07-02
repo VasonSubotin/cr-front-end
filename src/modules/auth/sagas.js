@@ -51,6 +51,11 @@ function* signInByCredentials(serverAPI, { email, password }) {
   yield call(signInSumUp, serverAPI, authData);
 }
 
+function setSmartCarToken({ smartCarToken }) {
+  console.log("setting token", smartCarToken);
+  authServices.setSmartCarTokenCookie(smartCarToken);
+}
+
 function* signUp(serverAPI, { email, password }) {
   const { response } = yield call(serverAPI.signUp, { login: email, password });
 
@@ -82,6 +87,7 @@ export function* authSaga(serverAPI) {
   yield all([
     takeLatest(authTypes.SIGN_IN_BY_CREDENTIALS_REQUEST, signInByCredentials, serverAPI),
     takeLatest(authTypes.SIGN_IN_BY_COOKIES_REQUEST, signInByCookies, serverAPI),
+    takeLatest(authTypes.SET_SMART_CAR_TOKEN, setSmartCarToken),
     takeLatest(authTypes.SIGN_UP_REQUEST, signUp, serverAPI),
     takeLatest(authTypes.SIGN_OUT_REQUEST, signOut, serverAPI),
   ]);

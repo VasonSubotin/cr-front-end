@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import Router from "next/router";
 import { Grid, Button, TextField } from "@material-ui/core";
 
-import { consts } from "config";
+import { consts, routes } from "config";
 import { authActions } from "modules/auth";
 import { validateEmail, validatePassword, validatePasswordMismatch } from "utils/validators";
 import { useForm } from "components/hooks/useForm";
@@ -49,6 +50,8 @@ export const SignUpFormComponent = ({ disabled, signUpRequest, onProcessingChang
         formFields[FormFields.EMAIL].value,
         formFields[FormFields.PASSWORD].value,
       );
+
+      Router.push(routes.MAIN.href);
     }
 
     setProcessing(false);
