@@ -40,7 +40,7 @@ export const resourcesSelectors = {
   getSelectedResourceId: (state) => state.resources.selectedResourceId,
   getSelectedResource: (state) =>
     state.resources.resources.find(
-      (resource) => resource.resourceId === state.resources.selectedResourceId,
+      (resource) => resource.vehicleId === state.resources.selectedResourceId,
     ),
 
   getIsShowSchedule: (state) => state.resources.isShowSchedule,
@@ -54,14 +54,14 @@ const setResources = (state, { resources }) => ({ ...state, resources });
 
 const deleteResource = (state, { resourceId }) => ({
   ...state,
-  resources: state.resources.filter((resource) => resource.resourceId !== resourceId),
+  resources: state.resources.filter((resource) => resource.vehicleId !== resourceId),
   selectedResourceId: state.selectedResourceId === resourceId ? null : state.selectedResourceId,
 });
 
 const updateResource = (state, { resourceId, data }) => ({
   ...state,
   resources: state.resources.map((resource) =>
-    resource.resourceId !== resourceId
+    resource.vehicleId !== resourceId
       ? resource
       : {
           ...resource,

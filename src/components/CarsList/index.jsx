@@ -14,6 +14,7 @@ const useStyles = makeStyles(() => ({
 
 export const CarsListComponent = ({ resources, setSelectedResource }) => {
   const classes = useStyles();
+  console.log(resources[0]);
 
   const renderEmptyList = () => (
     <Grid container direction="column" alignItems="center" spacing={2}>
@@ -34,16 +35,27 @@ export const CarsListComponent = ({ resources, setSelectedResource }) => {
   const renderCarsList = () => (
     <Grid container spacing={2}>
       {resources.map((item) => (
-        <Grid
-          key={item.resourceId}
-          item
-          xs={4}
-          onClick={() => setSelectedResource(item.resourceId)}
-        >
+        <Grid key={item.vehicleId} item xs={4} onClick={() => setSelectedResource(item.vehicleId)}>
           <Card className={classes.card} variant="outlined">
             <CardContent>
               <Typography>
-                Name: <b>{item.name || item.resourceId}</b>
+                Name:{" "}
+                <b>
+                  {item.vehicleInfo
+                    ? `${item.vehicleInfo.make} ${item.vehicleInfo.model}`
+                    : "Just a car"}
+                </b>
+              </Typography>
+              <Typography>
+                Year:{" "}
+                <b>
+                  {item.vehicleInfo && item.vehicleInfo.year
+                    ? item.vehicleInfo.year
+                    : "Who knows..."}
+                </b>
+              </Typography>
+              <Typography>
+                VIN: <b>{item.vin ? item.vin : "Even no vin"}</b>
               </Typography>
               <Typography>
                 SOC: <b>{item.soc}%</b>

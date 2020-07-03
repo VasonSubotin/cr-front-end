@@ -12,5 +12,5 @@ export function* getResources(serverAPI) {
     return;
   }
 
-  yield put(resourcesActions.setResources(response.data));
+  yield put(resourcesActions.setResources(response.data.vehiclesList));
 }
