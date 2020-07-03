@@ -35,22 +35,10 @@ const withAuthPageHoc = (WrappedComponent) =>
     }
 
     componentDidMount() {
-      const {
-        isSignedIn,
-        signInByCookiesRequest,
-        setSmartCarToken,
-        authCookies,
-        blurWindow,
-      } = this.props;
+      const { isSignedIn, signInByCookiesRequest, authCookies, blurWindow } = this.props;
 
       if (!isSignedIn) {
         signInByCookiesRequest(authCookies);
-      }
-
-      const smartCarToken = authServices.getSmartCarTokenCookie();
-
-      if (smartCarToken) {
-        setSmartCarToken(smartCarToken);
       }
 
       this.focusWindow();
@@ -125,7 +113,6 @@ const withAuthPageHoc = (WrappedComponent) =>
         authCookies,
         signOutRequest,
         signInByCookiesRequest,
-        setSmartCarToken,
         focusWindow,
         blurWindow,
         isSignedIn,
@@ -144,7 +131,6 @@ const mapDispatchToProps = (dispatch) => ({
   blurWindow: () => dispatch(uiActions.onWindowBlur()),
   signOutRequest: () => dispatch(authActions.signOutRequest()),
   signInByCookiesRequest: (data) => dispatch(authActions.signInByCookiesRequest(data)),
-  setSmartCarToken: (smartCarToken) => dispatch(authActions.setSmartCarToken(smartCarToken)),
 });
 
 export const withAuthPage = compose(connect(mapStateToProps, mapDispatchToProps), withAuthPageHoc);

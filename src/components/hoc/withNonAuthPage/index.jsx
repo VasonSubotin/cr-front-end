@@ -1,37 +1,41 @@
 import React, { Component } from "react";
+import Router from "next/router";
+import { compose } from "redux";
+import { connect } from "react-redux";
 
-import { authActions, authServices } from "modules/auth";
+import { authSelectors, authServices } from "modules/auth";
 import { routes } from "config";
 
 const withNonAuthPageHoc = (WrappedComponent) =>
   class Auth extends Component {
     static getInitialProps = async (ctx) => {
-      const redirect = (route) => {
-        if (ctx.req && route.href) {
-          ctx.res.writeHead(302, { Location: route.href });
-          ctx.res.end();
-        } else {
-          console.error("[Auth page] Redirect is not possible.");
-        }
-      };
-
       const authCookies = authServices.getNextJsAuthCookies(ctx);
-      const isAllAuthCookies = authServices.isAllAuthCookies(authCookies);
-
-      if (isAllAuthCookies) {
-        await ctx.store.dispatch(authActions.signInByCookiesRequest(authCookies));
-        redirect(routes.MAIN);
-      }
 
       const componentProps =
         WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx));
 
-      return { ...componentProps };
+      return { ...componentProps, authCookies };
     };
 
+    componentDidMount() {
+      const { isSignedIn, authCookies } = this.props;
+
+      const isAllAuthCookies = authServices.isAllAuthCookies(authCookies);
+
+      if (isAllAuthCookies || isSignedIn) {
+        Router.push(routes.MAIN.href);
+      }
+    }
+
     render() {
-      return <WrappedComponent {...this.props} />;
+      const { signInByCookiesRequest, isSignedIn, authCookies, ...rest } = this.props;
+
+      return <WrappedComponent {...rest} />;
     }
   };
 
-export const withNonAuthPage = withNonAuthPageHoc;
+const mapStateToProps = (state) => ({
+  isSignedIn: authSelectors.getIsSignedIn(state),
+});
+
+export const withNonAuthPage = compose(connect(mapStateToProps, null), withNonAuthPageHoc);

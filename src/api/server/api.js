@@ -4,7 +4,7 @@ export class ServerAPI extends APIBase {
   // GET
   signInByGoogle = () => this.get("googleLogin");
   getAccounts = () => this.get("accounts");
-  getResources = () => this.get("resources");
+  getResources = () => this.get("getData");
   smartCarSignIn = () => this.get("login");
 
   // POST

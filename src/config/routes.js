@@ -47,8 +47,8 @@ export const SETTINGS = {
   type: LinkTypes.INTERNAL,
 };
 
-export const AUTHORIZED = {
-  href: "/authorized",
+export const SMART_CAR_TOKEN = {
+  href: "/smartCarToken",
 };
 
 export const GOOGLE_TOKEN = {
@@ -57,7 +57,7 @@ export const GOOGLE_TOKEN = {
 
 export const NON_AUTH_ROUTES = [SIGN_IN, SIGN_UP];
 
-export const AUTH_ROUTES = [MAIN, DEMO, SESSION, SETTINGS, AUTHORIZED, GOOGLE_TOKEN];
+export const AUTH_ROUTES = [MAIN, DEMO, SESSION, SETTINGS, SMART_CAR_TOKEN, GOOGLE_TOKEN];
 
 /**
  * Server redirection links.

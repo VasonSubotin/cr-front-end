@@ -4,7 +4,6 @@ import { Grid, Typography, Button, Card, CardContent, makeStyles } from "@materi
 import { DirectionsCar } from "@material-ui/icons";
 
 import { routes } from "config";
-import { authActions } from "modules/auth";
 import { resourcesSelectors, resourcesActions } from "modules/resources";
 
 const useStyles = makeStyles(() => ({

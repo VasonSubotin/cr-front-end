@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import Router from "next/router";
 import { Grid, Button, TextField } from "@material-ui/core";
 
-import { consts, routes } from "config";
+import { consts } from "config";
 import { authActions } from "modules/auth";
 import { validateEmail, validatePassword } from "utils/validators";
 import { useForm } from "components/hooks/useForm";
@@ -43,8 +42,6 @@ const SignInFormComponent = ({ disabled, signInByCredentialsRequest, onProcessin
         formFields[FormFields.EMAIL].value,
         formFields[FormFields.PASSWORD].value,
       );
-
-      Router.push(routes.MAIN.href);
     }
 
     setProcessing(false);

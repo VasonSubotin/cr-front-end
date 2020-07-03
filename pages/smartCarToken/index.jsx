@@ -11,7 +11,7 @@ import { authActions } from "modules/auth";
 /**
  * Page handling SmartCar Auth callback.
  */
-const AuthorizedPage = ({ smartCarToken, setSmartCarToken }) => {
+const SmartCarTokenPage = ({ smartCarToken, setSmartCarToken }) => {
   useEffect(() => {
     const setSmartCarTokenEffect = async () => {
       await setSmartCarToken(smartCarToken);
@@ -25,7 +25,7 @@ const AuthorizedPage = ({ smartCarToken, setSmartCarToken }) => {
   return <NonAuthLayout>Authorizing on Ev-Charge...</NonAuthLayout>;
 };
 
-AuthorizedPage.getInitialProps = async ({ query: { code }, res, req }) => {
+SmartCarTokenPage.getInitialProps = async ({ query: { code }, res, req }) => {
   const redirect = (route) => {
     if (req && route.href) {
       res.writeHead(302, { Location: route.href });
@@ -47,4 +47,4 @@ const mapDispatchToProps = (dispatch) => ({
   setSmartCarToken: (smartCarToken) => dispatch(authActions.setSmartCarToken(smartCarToken)),
 });
 
-export default compose(withAuthPage, connect(null, mapDispatchToProps))(AuthorizedPage);
+export default compose(withAuthPage, connect(null, mapDispatchToProps))(SmartCarTokenPage);

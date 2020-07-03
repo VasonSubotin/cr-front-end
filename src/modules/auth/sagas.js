@@ -16,9 +16,7 @@ function* signInSumUp(serverAPI, { tokenType, accessToken, email }) {
   yield put(accountActions.setUserEmail(email));
   yield put(authActions.signInSuccess(tokenType, accessToken));
 
-  // ({ response } = yield call(serverAPI.getAccounts));
-  // console.log("Accounts");
-  // console.log(response);
+  yield call(resourcesSagas.getResources, serverAPI);
 }
 
 function* signInByCookies(serverAPI, { authCookies }) {
@@ -27,12 +25,12 @@ function* signInByCookies(serverAPI, { authCookies }) {
 
 function* signInByCredentials(serverAPI, { email, password }) {
   let { response } = yield call(serverAPI.authenticate, { login: email, password });
+  console.log(response);
 
   if (!response.ok) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
     yield put(authActions.signInFailure(message));
     console.error(message);
-    return;
   }
 
   const { token: accessToken } = response.data;
@@ -83,12 +81,14 @@ function* signUp(serverAPI, { email, password }) {
     const message = `${TAG} ${response.data.status} ${response.data.error} ${response.data.message}`;
     yield put(authActions.signUpFailure(message));
     console.error(message);
-    return;
+    return { error: message };
   }
 
   yield put(authActions.signUpSuccess());
 
   yield call(signInByCredentials, serverAPI, { email, password });
+
+  return {};
 }
 
 function* signOut(serverAPI) {

@@ -78,4 +78,4 @@ export const getNextJsAuthCookies = (context) => {
 };
 
 export const isAllAuthCookies = ({ tokenType, accessToken, email }) =>
-  tokenType && accessToken && email;
+  !!tokenType && !!accessToken && !!email;
